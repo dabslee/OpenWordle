@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load game_extras %}
+
+{% block title %}{{ preset.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ preset.title }}</h1>
+    <p>{{ preset.description }}</p>
+    <p>Word Length: {{ preset.letter_count }} | Max Guesses: {{ preset.max_guesses }}</p>
+
+    {% if is_solved %}
+        <div style="color: green; font-size: 1.2em; margin-bottom: 20px;">
+            Congratulations! You solved it! The answer was {{ game.answer }}.
+        </div>
+    {% elif is_failed %}
+        <div style="color: red; font-size: 1.2em; margin-bottom: 20px;">
+            Game Over! The answer was {{ game.answer }}.
+        </div>
+    {% endif %}
+
+    <div class="grid" style="--letters: {{ preset.letter_count }}">
+        {% for guess in guesses %}
+            <div class="row">
+                {% for letter, state in guess|wordle_colorize:game.answer %}
+                    <div class="cell {{ state }}">{{ letter }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {# Placeholder for empty rows #}
+        {% if not is_solved and not is_failed %}
+            {# Current attempt row logic is tricky without JS or extra context to show partial typing. #}
+            {# For simplicity, just show empty rows for remaining attempts including the current one which is being typed in the input #}
+        {% endif %}
+
+        {% with remaining_count=preset.max_guesses|add:"-"|add:guesses|length %}
+            {# Ideally we iterate remaining_count times #}
+            {# Since django templates are limited, we can use a custom range tag or just not show empty rows. #}
+            {# Let's add a range tag to extras #}
+            {% for i in remaining_guesses|times %}
+                 <div class="row">
+                    {% for j in preset.letter_count|times %}
+                        <div class="cell"></div>
+                    {% endfor %}
+                 </div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+
+    {% if not is_solved and not is_failed %}
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <input type="text" name="guess" maxlength="{{ preset.letter_count }}" minlength="{{ preset.letter_count }}" required autofocus pattern="[a-zA-Z]{{ preset.letter_count }}" title="{{ preset.letter_count }} letters" style="text-transform: uppercase;">
+            <button type="submit">Guess</button>
+            <p>Guesses remaining: {{ remaining_guesses }}</p>
+        </form>
+    {% endif %}
+{% endblock %}
