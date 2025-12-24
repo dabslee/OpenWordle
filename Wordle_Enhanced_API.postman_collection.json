@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "wordle-enhanced-api",
 		"name": "Wordle Enhanced API",
-		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:** Before logging in or making POST requests, run the 'Get CSRF Token' request in the Auth folder to initialize the CSRF cookie.",
+		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:**\n1. Use the Auth folder to Signup or Login.\n2. Both Signup and Login return a `token`. This token is automatically stored in the collection variable `token`.\n3. All other requests use `Authorization: Token {{token}}`.\n4. Game state is tied to the authenticated user.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -10,25 +10,21 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Get CSRF Token",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								""
-							]
-						},
-						"description": "Initializes the CSRF cookie by hitting the home page. Run this first."
-					},
-					"response": []
-				},
-				{
 					"name": "Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -52,12 +48,27 @@
 								"signup",
 								""
 							]
-						}
+						},
+						"description": "Creates a new user and returns an authentication token."
 					},
 					"response": []
 				},
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -82,7 +93,7 @@
 								""
 							]
 						},
-						"description": "Logs in the user. Requires CSRF token (run 'Get CSRF Token' first)."
+						"description": "Logs in the user and returns an authentication token."
 					},
 					"response": []
 				},
@@ -102,7 +113,8 @@
 								"logout",
 								""
 							]
-						}
+						},
+						"description": "Invalidates the current authentication token."
 					},
 					"response": []
 				},
@@ -122,7 +134,8 @@
 								"user",
 								""
 							]
-						}
+						},
+						"description": "Returns details of the currently authenticated user."
 					},
 					"response": []
 				}
@@ -146,7 +159,8 @@
 								"presets",
 								""
 							]
-						}
+						},
+						"description": "Lists all available game presets."
 					},
 					"response": []
 				},
@@ -174,7 +188,8 @@
 								"presets",
 								""
 							]
-						}
+						},
+						"description": "Creates a new game preset."
 					},
 					"response": []
 				},
@@ -194,7 +209,8 @@
 								"my-custom-wordle",
 								""
 							]
-						}
+						},
+						"description": "Retrieves details of a specific preset."
 					},
 					"response": []
 				},
@@ -223,7 +239,8 @@
 								"my-custom-wordle",
 								""
 							]
-						}
+						},
+						"description": "Updates a specific preset."
 					},
 					"response": []
 				},
@@ -244,7 +261,8 @@
 								"toggle_pin",
 								""
 							]
-						}
+						},
+						"description": "Toggles the pin status of a preset for the user."
 					},
 					"response": []
 				},
@@ -264,7 +282,8 @@
 								"my-custom-wordle",
 								""
 							]
-						}
+						},
+						"description": "Deletes a preset."
 					},
 					"response": []
 				}
@@ -288,7 +307,8 @@
 								"game",
 								""
 							]
-						}
+						},
+						"description": "Retrieves the current user's game state for the default preset."
 					},
 					"response": []
 				},
@@ -316,38 +336,46 @@
 								"game",
 								""
 							]
-						}
+						},
+						"description": "Submits a guess for the default preset game."
 					},
 					"response": []
 				},
 				{
-					"name": "Get Game State (Slug)",
+					"name": "Get Game State (Specific Preset)",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/game/my-custom-wordle/",
+							"raw": "{{base_url}}/api/game/?preset=my-custom-wordle",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"game",
-								"my-custom-wordle",
 								""
+							],
+							"query": [
+								{
+									"key": "preset",
+									"value": "my-custom-wordle",
+									"description": "The slug of the preset to load."
+								}
 							]
-						}
+						},
+						"description": "Retrieves the current user's game state for a specific preset."
 					},
 					"response": []
 				},
 				{
-					"name": "Submit Guess (Slug)",
+					"name": "Submit Guess (Specific Preset)",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"guess\": \"MANGO\"\n}",
+							"raw": "{\n    \"guess\": \"MANGO\",\n    \"preset\": \"my-custom-wordle\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -355,33 +383,54 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/game/my-custom-wordle/",
+							"raw": "{{base_url}}/api/game/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"game",
-								"my-custom-wordle",
 								""
 							]
-						}
+						},
+						"description": "Submits a guess for a specific preset game."
 					},
 					"response": []
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "Token {{token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"var csrf_token = pm.cookies.get('csrftoken');",
-					"if (csrf_token) {",
-					"    pm.request.headers.add({key: 'X-CSRFToken', value: csrf_token});",
-					"}"
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
 				]
 			}
 		}
@@ -390,6 +439,11 @@
 		{
 			"key": "base_url",
 			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
 			"type": "string"
 		}
 	]

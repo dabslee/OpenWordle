@@ -29,10 +29,5 @@ backend_ui = [
 urlpatterns = [
     # API URLs
     path('api/', include(router.urls)),
-    path('api/game/', api_views.GameView.as_view(), name='api_game_default'),
-    path('api/game/<slug:slug>/', api_views.GameView.as_view(), name='api_game'),
-    path('api/auth/user/', api_views.AuthView.as_view({'get': 'current_user'}), name='api_current_user'),
-    path('api/auth/login/', api_views.AuthView.as_view({'post': 'login'}), name='api_login'),
-    path('api/auth/logout/', api_views.AuthView.as_view({'post': 'logout'}), name='api_logout'),
-    path('api/auth/signup/', api_views.AuthView.as_view({'post': 'signup'}), name='api_signup'),
+    path('api/game/', api_views.GameView.as_view(), name='api_game'),
 ] + backend_ui

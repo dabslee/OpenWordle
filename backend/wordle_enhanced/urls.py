@@ -33,5 +33,6 @@ backend_ui = [
 ] if (os.getenv("enable_backend_ui") == "True") else []
 urlpatterns = backend_ui + [
     path("admin/", admin.site.urls),
+    path("api/auth/", include("authentication.urls")),
     path("", include("game.urls")),
 ]
