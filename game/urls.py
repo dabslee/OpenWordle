@@ -9,5 +9,7 @@ urlpatterns = [
     path('presets/<slug:slug>/delete/', views.delete_preset, name='delete_preset'),
     path('presets/pin/<path:slug>/', views.toggle_pin, name='toggle_pin'),
     path('presets/pin/', views.toggle_pin, {'slug': ''}, name='toggle_pin_default'),
+    path('validate/<slug:slug>/', views.validate_guess, name='validate_guess'),
+    path('validate/', views.validate_guess, {'slug': ''}, name='validate_guess_default'),
     path('<slug:slug>/', views.play_game, name='play_game'),
 ]

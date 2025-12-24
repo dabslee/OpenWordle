@@ -10,26 +10,30 @@
             <input type="text" name="q" placeholder="Search presets..." value="{{ request.GET.q|default:'' }}">
             <button type="submit">Search</button>
         </form>
-        <a href="{% url 'create_preset' %}">Create New Preset</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'create_preset' %}">Create New Preset</a>
+        {% endif %}
     </div>
 
-    {% if pinned_presets %}
-    <div class="pinned">
-        <h2>Pinned Presets</h2>
-        {% for preset in pinned_presets %}
-            <div class="preset-card">
-                <h3><a href="{% if preset.slug %}{% url 'play_game' slug=preset.slug %}{% else %}{% url 'play_game_default' %}{% endif %}">{{ preset.title }}</a></h3>
-                <p>{{ preset.description }}</p>
-                <div class="actions">
-                {% if preset.slug %}
-                    <a href="{% url 'toggle_pin' slug=preset.slug %}">Unpin</a>
-                {% else %}
-                    <a href="{% url 'toggle_pin_default' %}">Unpin</a>
-                {% endif %}
+    {% if user.is_authenticated %}
+        {% if pinned_presets %}
+        <div class="pinned">
+            <h2>Pinned Presets</h2>
+            {% for preset in pinned_presets %}
+                <div class="preset-card">
+                    <h3><a href="{% if preset.slug %}{% url 'play_game' slug=preset.slug %}{% else %}{% url 'play_game_default' %}{% endif %}">{{ preset.title }}</a></h3>
+                    <p>{{ preset.description }}</p>
+                    <div class="actions">
+                    {% if preset.slug %}
+                        <a href="{% url 'toggle_pin' slug=preset.slug %}">Unpin</a>
+                    {% else %}
+                        <a href="{% url 'toggle_pin_default' %}">Unpin</a>
+                    {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     {% endif %}
 
     <h2>All Presets</h2>
@@ -39,23 +43,25 @@
             <p>{{ preset.description }}</p>
             <p class="creator">Created by: {{ preset.creator.username|default:"System" }}</p>
             <div class="actions">
-                {% if preset in user.pinned_presets.all %}
-                    {% if preset.slug %}
-                        <a href="{% url 'toggle_pin' slug=preset.slug %}">Unpin</a>
+                {% if user.is_authenticated %}
+                    {% if preset in user.pinned_presets.all %}
+                        {% if preset.slug %}
+                            <a href="{% url 'toggle_pin' slug=preset.slug %}">Unpin</a>
+                        {% else %}
+                            <a href="{% url 'toggle_pin_default' %}">Unpin</a>
+                        {% endif %}
                     {% else %}
-                        <a href="{% url 'toggle_pin_default' %}">Unpin</a>
+                        {% if preset.slug %}
+                            <a href="{% url 'toggle_pin' slug=preset.slug %}">Pin</a>
+                        {% else %}
+                            <a href="{% url 'toggle_pin_default' %}">Pin</a>
+                        {% endif %}
                     {% endif %}
-                {% else %}
-                    {% if preset.slug %}
-                        <a href="{% url 'toggle_pin' slug=preset.slug %}">Pin</a>
-                    {% else %}
-                        <a href="{% url 'toggle_pin_default' %}">Pin</a>
-                    {% endif %}
-                {% endif %}
 
-                {% if preset.creator == user %}
-                    <a href="{% url 'edit_preset' slug=preset.slug %}">Edit</a>
-                    <a href="{% url 'delete_preset' slug=preset.slug %}" onclick="return confirm('Are you sure?');">Delete</a>
+                    {% if preset.creator == user %}
+                        <a href="{% url 'edit_preset' slug=preset.slug %}">Edit</a>
+                        <a href="{% url 'delete_preset' slug=preset.slug %}" onclick="return confirm('Are you sure?');">Delete</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
