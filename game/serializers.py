@@ -6,8 +6,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email']
 
+class PublicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
 class GamePresetSerializer(serializers.ModelSerializer):
-    creator = UserSerializer(read_only=True)
+    creator = PublicUserSerializer(read_only=True)
     is_pinned = serializers.SerializerMethodField()
 
     class Meta:
@@ -24,15 +29,6 @@ class GameAttemptSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameAttempt
         fields = ['guesses', 'created_at']
-
-class GameStateSerializer(serializers.Serializer):
-    preset = GamePresetSerializer()
-    guesses = serializers.ListField(child=serializers.CharField())
-    remaining_guesses = serializers.IntegerField()
-    is_solved = serializers.BooleanField()
-    is_failed = serializers.BooleanField()
-    status = serializers.CharField() # 'playing', 'won', 'lost'
-    results = serializers.ListField(child=serializers.ListField(), required=False) # Color results for guesses
 
 class GuessInputSerializer(serializers.Serializer):
     guess = serializers.CharField()

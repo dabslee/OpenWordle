@@ -4,14 +4,14 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from .models import GamePreset, Game, GameAttempt, User
-from .serializers import GamePresetSerializer, GameStateSerializer, GuessInputSerializer, UserSerializer
-from game.templatetags.game_extras import wordle_colorize
-import random
+from .serializers import GamePresetSerializer, GuessInputSerializer, UserSerializer
+from .permissions import IsOwnerOrReadOnly
+from game.utils import wordle_colorize
 
 class PresetViewSet(viewsets.ModelViewSet):
     queryset = GamePreset.objects.all()
     serializer_class = GamePresetSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     lookup_field = 'slug'
 
     def perform_create(self, serializer):
