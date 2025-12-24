@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "wordle-enhanced-api",
 		"name": "Wordle Enhanced API",
-		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:**\n1. Use the Auth folder to Signup or Login.\n2. Both Signup and Login return a `token`. This token is automatically stored in the collection variable `token`.\n3. All requests except 'Stateless Guess' and 'Refresh Status' use `Authorization: Token {{token}}`.\n4. Game state is tied to the authenticated user.",
+		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:**\n1. Use the Auth folder to Signup or Login.\n2. Both Signup and Login return a `token`. This token is automatically stored in the collection variable `token`.\n3. All requests except 'Stateless Guess', 'Refresh Status', and 'List Presets' use `Authorization: Token {{token}}`.\n4. Game state is tied to the authenticated user.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -147,6 +147,9 @@
 				{
 					"name": "List Presets",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -160,7 +163,7 @@
 								""
 							]
 						},
-						"description": "Lists all available game presets."
+						"description": "Lists all available game presets. Publicly accessible. If authenticated, `is_pinned` will reflect the user's pinned status."
 					},
 					"response": []
 				},
