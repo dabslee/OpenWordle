@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "wordle-enhanced-api",
+		"name": "Wordle Enhanced API",
+		"description": "Postman collection for Wordle Enhanced Django REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"testpass123\",\n    \"email\": \"test@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signup/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"testpass123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/logout/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/user/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Presets",
+			"item": [
+				{
+					"name": "List Presets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/presets/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"presets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Preset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"My Custom Wordle\",\n    \"description\": \"A custom game preset.\",\n    \"letter_count\": 5,\n    \"max_guesses\": 6,\n    \"word_bank\": \"APPLE,GRAPE,MANGO,BERRY,PEACH,LEMON\",\n    \"slug\": \"my-custom-wordle\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/presets/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"presets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Preset",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/presets/my-custom-wordle/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"presets",
+								"my-custom-wordle",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Preset",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"My Updated Wordle\",\n    \"description\": \"Updated description.\",\n    \"letter_count\": 5,\n    \"max_guesses\": 6,\n    \"word_bank\": \"APPLE,GRAPE,MANGO,BERRY,PEACH,LEMON,MELON\",\n    \"slug\": \"my-custom-wordle\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/presets/my-custom-wordle/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"presets",
+								"my-custom-wordle",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Pin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/presets/my-custom-wordle/toggle_pin/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"presets",
+								"my-custom-wordle",
+								"toggle_pin",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Preset",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/presets/my-custom-wordle/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"presets",
+								"my-custom-wordle",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "Get Game State (Default)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/game/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Guess (Default)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"guess\": \"APPLE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/game/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Game State (Slug)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/game/my-custom-wordle/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"my-custom-wordle",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Guess (Slug)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"guess\": \"MANGO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/game/my-custom-wordle/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"my-custom-wordle",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var csrf_token = pm.cookies.get('csrftoken');",
+					"if (csrf_token) {",
+					"    pm.request.headers.add({key: 'X-CSRFToken', value: csrf_token});",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
