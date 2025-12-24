@@ -51,7 +51,41 @@
 						},
 						"description": "Creates a new user and returns an authentication token."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Successful Signup",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"testpass123\",\n    \"email\": \"test@example.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/signup/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"signup",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"status\": \"success\",\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"testuser\",\n        \"email\": \"test@example.com\"\n    },\n    \"token\": \"9d6a3b2e5f1c4d8e...\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Login",
@@ -95,7 +129,41 @@
 						},
 						"description": "Logs in the user and returns an authentication token."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Successful Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"testpass123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/login/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"status\": \"success\",\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"testuser\",\n        \"email\": \"test@example.com\"\n    },\n    \"token\": \"9d6a3b2e5f1c4d8e...\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Logout",
@@ -116,7 +184,32 @@
 						},
 						"description": "Invalidates the current authentication token."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Successful Logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/auth/logout/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"logout",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"status\": \"success\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Current User",
@@ -137,7 +230,32 @@
 						},
 						"description": "Returns details of the currently authenticated user."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Authenticated User Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/auth/user/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"user",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"is_authenticated\": true,\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"testuser\",\n        \"email\": \"test@example.com\"\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -165,7 +283,31 @@
 						},
 						"description": "Lists all available game presets. Publicly accessible. If authenticated, `is_pinned` will reflect the user's pinned status."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "List Presets Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/presets/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"presets",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Daily Wordle\",\n        \"description\": \"The classic daily game.\",\n        \"letter_count\": 5,\n        \"max_guesses\": 6,\n        \"slug\": \"daily-wordle\",\n        \"creator\": {\n            \"id\": 1,\n            \"username\": \"admin\"\n        },\n        \"is_pinned\": false\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "Create Preset",
@@ -194,7 +336,40 @@
 						},
 						"description": "Creates a new game preset."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Preset Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"My Custom Wordle\",\n    \"description\": \"A custom game preset.\",\n    \"letter_count\": 5,\n    \"max_guesses\": 6,\n    \"word_bank\": \"APPLE,GRAPE,MANGO,BERRY,PEACH,LEMON\",\n    \"slug\": \"my-custom-wordle\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/presets/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"presets",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"id\": 2,\n    \"title\": \"My Custom Wordle\",\n    \"description\": \"A custom game preset.\",\n    \"letter_count\": 5,\n    \"max_guesses\": 6,\n    \"slug\": \"my-custom-wordle\",\n    \"creator\": {\n        \"id\": 1,\n        \"username\": \"testuser\"\n    },\n    \"is_pinned\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "Retrieve Preset",
@@ -215,7 +390,32 @@
 						},
 						"description": "Retrieves details of a specific preset."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Preset Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/presets/my-custom-wordle/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"presets",
+										"my-custom-wordle",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"id\": 2,\n    \"title\": \"My Custom Wordle\",\n    \"description\": \"A custom game preset.\",\n    \"letter_count\": 5,\n    \"max_guesses\": 6,\n    \"slug\": \"my-custom-wordle\",\n    \"creator\": {\n        \"id\": 1,\n        \"username\": \"testuser\"\n    },\n    \"is_pinned\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "Update Preset",
@@ -245,7 +445,41 @@
 						},
 						"description": "Updates a specific preset."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Preset Updated",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"My Updated Wordle\",\n    \"description\": \"Updated description.\",\n    \"letter_count\": 5,\n    \"max_guesses\": 6,\n    \"word_bank\": \"APPLE,GRAPE,MANGO,BERRY,PEACH,LEMON,MELON\",\n    \"slug\": \"my-custom-wordle\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/presets/my-custom-wordle/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"presets",
+										"my-custom-wordle",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"id\": 2,\n    \"title\": \"My Updated Wordle\",\n    \"description\": \"Updated description.\",\n    \"letter_count\": 5,\n    \"max_guesses\": 6,\n    \"slug\": \"my-custom-wordle\",\n    \"creator\": {\n        \"id\": 1,\n        \"username\": \"testuser\"\n    },\n    \"is_pinned\": false\n}"
+						}
+					]
 				},
 				{
 					"name": "Toggle Pin",
@@ -267,7 +501,33 @@
 						},
 						"description": "Toggles the pin status of a preset for the user."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Pin Toggled",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/presets/my-custom-wordle/toggle_pin/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"presets",
+										"my-custom-wordle",
+										"toggle_pin",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"status\": \"success\",\n    \"pinned\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete Preset",
@@ -288,7 +548,32 @@
 						},
 						"description": "Deletes a preset."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Preset Deleted",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/presets/my-custom-wordle/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"presets",
+										"my-custom-wordle",
+										""
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": ""
+						}
+					]
 				}
 			]
 		},
@@ -313,7 +598,31 @@
 						},
 						"description": "Retrieves the current user's game state for the default preset."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Game State Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/game/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"preset\": {\n        \"id\": 1,\n        \"title\": \"Daily Wordle\",\n        \"description\": \"The classic daily game.\",\n        \"letter_count\": 5,\n        \"max_guesses\": 6,\n        \"slug\": \"daily-wordle\",\n        \"creator\": {\n            \"id\": 1,\n            \"username\": \"admin\"\n        },\n        \"is_pinned\": false\n    },\n    \"guesses\": [\n        \"APPLE\"\n    ],\n    \"remaining_guesses\": 5,\n    \"is_solved\": false,\n    \"is_failed\": false,\n    \"status\": \"playing\",\n    \"results\": [\n        [\n            {\n                \"letter\": \"A\",\n                \"state\": \"correct\"\n            },\n            {\n                \"letter\": \"P\",\n                \"state\": \"absent\"\n            },\n            {\n                \"letter\": \"P\",\n                \"state\": \"absent\"\n            },\n            {\n                \"letter\": \"L\",\n                \"state\": \"present\"\n            },\n            {\n                \"letter\": \"E\",\n                \"state\": \"absent\"\n            }\n        ]\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Submit Guess (Default)",
@@ -342,7 +651,40 @@
 						},
 						"description": "Submits a guess for the default preset game."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Guess Submitted",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"guess\": \"APPLE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/game/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"guess\": \"APPLE\",\n    \"result\": [\n        {\n            \"letter\": \"A\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"P\",\n            \"state\": \"absent\"\n        },\n        {\n            \"letter\": \"P\",\n            \"state\": \"absent\"\n        },\n        {\n            \"letter\": \"L\",\n            \"state\": \"present\"\n        },\n        {\n            \"letter\": \"E\",\n            \"state\": \"absent\"\n        }\n    ],\n    \"is_solved\": false,\n    \"is_failed\": false,\n    \"remaining_guesses\": 5\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Game State (Specific Preset)",
@@ -369,7 +711,38 @@
 						},
 						"description": "Retrieves the current user's game state for a specific preset."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Game State (Specific) Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/game/?preset=my-custom-wordle",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										""
+									],
+									"query": [
+										{
+											"key": "preset",
+											"value": "my-custom-wordle",
+											"description": "The slug of the preset to load."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"preset\": {\n        \"id\": 2,\n        \"title\": \"My Custom Wordle\",\n        \"description\": \"A custom game preset.\",\n        \"letter_count\": 5,\n        \"max_guesses\": 6,\n        \"slug\": \"my-custom-wordle\",\n        \"creator\": {\n            \"id\": 1,\n            \"username\": \"testuser\"\n        },\n        \"is_pinned\": true\n    },\n    \"guesses\": [],\n    \"remaining_guesses\": 6,\n    \"is_solved\": false,\n    \"is_failed\": false,\n    \"status\": \"playing\",\n    \"results\": []\n}"
+						}
+					]
 				},
 				{
 					"name": "Submit Guess (Specific Preset)",
@@ -398,7 +771,40 @@
 						},
 						"description": "Submits a guess for a specific preset game."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Guess Submitted (Specific)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"guess\": \"MANGO\",\n    \"preset\": \"my-custom-wordle\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/game/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"guess\": \"MANGO\",\n    \"result\": [\n        {\n            \"letter\": \"M\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"A\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"N\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"G\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"O\",\n            \"state\": \"correct\"\n        }\n    ],\n    \"is_solved\": true,\n    \"is_failed\": false,\n    \"remaining_guesses\": 5\n}"
+						}
+					]
 				},
 				{
 					"name": "Stateless Guess",
@@ -431,7 +837,41 @@
 						},
 						"description": "Submits a guess without checking authentication or saving state. Rate limited to 10/minute."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Stateless Guess Result",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"guess\": \"MANGO\",\n    \"preset\": \"my-custom-wordle\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/game/guess/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"guess",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"guess\": \"MANGO\",\n    \"result\": [\n        {\n            \"letter\": \"M\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"A\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"N\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"G\",\n            \"state\": \"correct\"\n        },\n        {\n            \"letter\": \"O\",\n            \"state\": \"correct\"\n        }\n    ],\n    \"is_solved\": true,\n    \"is_failed\": false,\n    \"remaining_guesses\": null\n}"
+						}
+					]
 				},
 				{
 					"name": "Refresh Status",
@@ -455,7 +895,32 @@
 						},
 						"description": "Returns the time remaining until the next game refresh (midnight UTC). Rate limited to 10/minute."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Refresh Status Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/game/refresh/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"refresh",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"seconds_until_refresh\": 3600,\n    \"next_refresh_at\": \"2023-10-27T00:00:00+00:00\"\n}"
+						}
+					]
 				}
 			]
 		}
