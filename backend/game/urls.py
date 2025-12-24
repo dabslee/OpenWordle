@@ -29,5 +29,6 @@ backend_ui = [
 urlpatterns = [
     # API URLs
     path('api/', include(router.urls)),
+    path('api/game/guess/', api_views.StatelessGuessView.as_view(), name='api_game_guess'),
     path('api/game/', api_views.GameView.as_view(), name='api_game'),
 ] + backend_ui

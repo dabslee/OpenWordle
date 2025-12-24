@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "wordle-enhanced-api",
 		"name": "Wordle Enhanced API",
-		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:**\n1. Use the Auth folder to Signup or Login.\n2. Both Signup and Login return a `token`. This token is automatically stored in the collection variable `token`.\n3. All other requests use `Authorization: Token {{token}}`.\n4. Game state is tied to the authenticated user.",
+		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:**\n1. Use the Auth folder to Signup or Login.\n2. Both Signup and Login return a `token`. This token is automatically stored in the collection variable `token`.\n3. All requests except 'Stateless Guess' use `Authorization: Token {{token}}`.\n4. Game state is tied to the authenticated user.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -394,6 +394,39 @@
 							]
 						},
 						"description": "Submits a guess for a specific preset game."
+					},
+					"response": []
+				},
+				{
+					"name": "Stateless Guess",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"guess\": \"MANGO\",\n    \"preset\": \"my-custom-wordle\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/game/guess/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"guess",
+								""
+							]
+						},
+						"description": "Submits a guess without checking authentication or saving state. Rate limited to 10/minute."
 					},
 					"response": []
 				}

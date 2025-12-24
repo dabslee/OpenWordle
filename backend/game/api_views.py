@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions, status, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 from django.shortcuts import get_object_or_404
 from .models import GamePreset, Game, GameAttempt
 from .serializers import GamePresetSerializer, GuessInputSerializer
@@ -124,4 +125,47 @@ class GameView(views.APIView):
             'is_solved': is_solved,
             'is_failed': is_failed,
             'remaining_guesses': remaining_guesses
+        })
+
+class StatelessGuessView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'stateless_guess'
+
+    def post(self, request):
+        preset_slug = request.data.get('preset')
+        if preset_slug:
+            preset = get_object_or_404(GamePreset, slug=preset_slug)
+        else:
+            preset = GamePreset.objects.first()
+            if not preset:
+                 return Response({'error': 'No presets found'}, status=404)
+
+        serializer = GuessInputSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+
+        guess = serializer.validated_data['guess'].strip().upper()
+
+        # We need the game to know the answer
+        game = Game.get_or_create_daily_game(preset)
+
+        # Validation
+        if len(guess) != preset.letter_count:
+            return Response({'error': f'Guess must be {preset.letter_count} letters long'}, status=400)
+
+        valid_words = [w.strip().upper() for w in preset.word_bank.replace(',', ' ').split()]
+        if guess not in valid_words:
+             return Response({'error': 'Not in word bank'}, status=400)
+
+        colors_data = list(wordle_colorize(guess, game.answer))
+        result = [{'letter': l, 'state': s} for l, s in colors_data]
+        is_solved = (guess == game.answer)
+
+        return Response({
+            'guess': guess,
+            'result': result,
+            'is_solved': is_solved,
+            'is_failed': False,
+            'remaining_guesses': None
         })
