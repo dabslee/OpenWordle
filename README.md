@@ -15,9 +15,9 @@ A Django-based web application that simulates Wordle with enhanced features, inc
 
 ## Tech Stack
 
--   **Backend**: Python, Django 6.0
--   **Database**: SQLite (default)
--   **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
+-   **Backend**: Python, Django
+-   **Database**: PostgreSQL
+-   **Frontend**: HTML5, CSS3, JavaScript
 
 ## Setup & Installation
 
@@ -33,28 +33,23 @@ A Django-based web application that simulates Wordle with enhanced features, inc
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
-3.  **Install dependencies:**
+3.  **Set up .env variables:**
+    Create a new file called `.env` in the root directory. See `.env.example` for the variables and formatting needed.
+
+4.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Apply database migrations:**
+5.  **Apply database migrations:**
     ```bash
     python manage.py migrate
     ```
 
-5.  **Run the development server:**
+6.  **Run the development backend server:**
     ```bash
     python manage.py runserver
     ```
 
-6.  **Access the application:**
-    Open your browser and navigate to `http://localhost:8000`.
-
-## Testing
-
-To run the automated tests:
-
-```bash
-python manage.py test
-```
+7.  **Access the application:**
+    Open your browser and navigate to `http://localhost:8000`. Alternatively, you can see how to access the Django REST API endpoints with the `Wordle_Enhanced_API.postman_collection.json` Postman collection.
