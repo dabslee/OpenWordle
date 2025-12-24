@@ -3,10 +3,12 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from .models import GamePreset, Game, GameAttempt
 from .serializers import GamePresetSerializer, GuessInputSerializer
 from .permissions import IsOwnerOrReadOnly
 from game.utils import wordle_colorize
+import datetime
 
 class PresetViewSet(viewsets.ModelViewSet):
     queryset = GamePreset.objects.all()
@@ -168,4 +170,22 @@ class StatelessGuessView(views.APIView):
             'is_solved': is_solved,
             'is_failed': False,
             'remaining_guesses': None
+        })
+
+class GameRefreshStatusView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'stateless_guess'
+
+    def get(self, request):
+        now = timezone.now()
+        tomorrow = now.date() + datetime.timedelta(days=1)
+        next_midnight = timezone.datetime.combine(tomorrow, datetime.time.min, tzinfo=now.tzinfo)
+
+        time_until = next_midnight - now
+        seconds_until = int(time_until.total_seconds())
+
+        return Response({
+            'seconds_until_refresh': seconds_until,
+            'next_refresh_at': next_midnight.isoformat()
         })
