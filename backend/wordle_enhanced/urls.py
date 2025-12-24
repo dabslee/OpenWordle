@@ -20,10 +20,18 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from game import views as game_views
 
-urlpatterns = [
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR.parent / ".env")
+
+backend_ui = [
     path("accounts/login/", auth_views.LoginView.as_view(template_name='game/login.html'), name="login"),
     path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("accounts/signup/", game_views.signup, name="signup"),
+] if (os.getenv("enable_backend_ui") == "True") else []
+urlpatterns = backend_ui + [
     path("admin/", admin.site.urls),
     path("", include("game.urls")),
 ]
