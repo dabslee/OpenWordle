@@ -8,51 +8,170 @@
     <p>{{ preset.description }}</p>
     <p>Word Length: {{ preset.letter_count }} | Max Guesses: {{ preset.max_guesses }}</p>
 
-    {% if is_solved %}
-        <div style="color: green; font-size: 1.2em; margin-bottom: 20px;">
-            Congratulations! You solved it! The answer was {{ game.answer }}.
-        </div>
-    {% elif is_failed %}
-        <div style="color: red; font-size: 1.2em; margin-bottom: 20px;">
-            Game Over! The answer was {{ game.answer }}.
-        </div>
-    {% endif %}
-
-    <div class="grid" style="--letters: {{ preset.letter_count }}">
-        {% for guess in guesses %}
-            <div class="row">
-                {% for letter, state in guess|wordle_colorize:game.answer %}
-                    <div class="cell {{ state }}">{{ letter }}</div>
-                {% endfor %}
+    {% if not is_guest %}
+        {% if is_solved %}
+            <div style="color: green; font-size: 1.2em; margin-bottom: 20px;">
+                Congratulations! You solved it! The answer was {{ game.answer }}.
             </div>
-        {% endfor %}
-
-        {# Placeholder for empty rows #}
-        {% if not is_solved and not is_failed %}
-            {# Current attempt row logic is tricky without JS or extra context to show partial typing. #}
-            {# For simplicity, just show empty rows for remaining attempts including the current one which is being typed in the input #}
+        {% elif is_failed %}
+            <div style="color: red; font-size: 1.2em; margin-bottom: 20px;">
+                Game Over! The answer was {{ game.answer }}.
+            </div>
         {% endif %}
 
-        {% with remaining_count=preset.max_guesses|add:"-"|add:guesses|length %}
-            {# Ideally we iterate remaining_count times #}
-            {# Since django templates are limited, we can use a custom range tag or just not show empty rows. #}
-            {# Let's add a range tag to extras #}
-            {% for i in remaining_guesses|times %}
-                 <div class="row">
-                    {% for j in preset.letter_count|times %}
-                        <div class="cell"></div>
+        <div class="grid" style="--letters: {{ preset.letter_count }}">
+            {% for guess in guesses %}
+                <div class="row">
+                    {% for letter, state in guess|wordle_colorize:game.answer %}
+                        <div class="cell {{ state }}">{{ letter }}</div>
                     {% endfor %}
-                 </div>
+                </div>
             {% endfor %}
-        {% endwith %}
-    </div>
 
-    {% if not is_solved and not is_failed %}
-        <form method="post" autocomplete="off">
-            {% csrf_token %}
-            <input type="text" name="guess" maxlength="{{ preset.letter_count }}" minlength="{{ preset.letter_count }}" required autofocus pattern="[A-Za-z0-9]{% templatetag openbrace %}{{ preset.letter_count }}{% templatetag closebrace %}" title="{{ preset.letter_count }} letters/numbers" style="text-transform: uppercase;">
+            {% with remaining_count=preset.max_guesses|add:"-"|add:guesses|length %}
+                {% for i in remaining_guesses|times %}
+                     <div class="row">
+                        {% for j in preset.letter_count|times %}
+                            <div class="cell"></div>
+                        {% endfor %}
+                     </div>
+                {% endfor %}
+            {% endwith %}
+        </div>
+
+        {% if not is_solved and not is_failed %}
+            <form method="post" autocomplete="off">
+                {% csrf_token %}
+                <input type="text" name="guess" maxlength="{{ preset.letter_count }}" minlength="{{ preset.letter_count }}" required autofocus pattern="[A-Za-z0-9]{% templatetag openbrace %}{% templatetag openbrace %}{{ preset.letter_count }}{% templatetag closebrace %}" title="{{ preset.letter_count }} letters" style="text-transform: uppercase;">
+                <button type="submit">Guess</button>
+                <p>Guesses remaining: {{ remaining_guesses }}</p>
+            </form>
+        {% endif %}
+
+    {% else %}
+        <!-- Guest Mode -->
+        <div id="guest-message-area"></div>
+        <div id="guest-grid" class="grid" style="--letters: {{ preset.letter_count }}"></div>
+
+        <form id="guest-form" autocomplete="off">
+            <input type="text" id="guest-input" maxlength="{{ preset.letter_count }}" minlength="{{ preset.letter_count }}" required autofocus pattern="[a-zA-Z]{% templatetag openbrace %}{{ preset.letter_count }}{% templatetag closebrace %}{% templatetag closebrace %}" title="{{ preset.letter_count }} letters/numbers" style="text-transform: uppercase;">
             <button type="submit">Guess</button>
-            <p>Guesses remaining: {{ remaining_guesses }}</p>
+            <p>Guesses remaining: <span id="guest-remaining">{{ preset.max_guesses }}</span></p>
         </form>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const slug = "{{ preset.slug|default:'_default_' }}";
+                const date = new Date().toISOString().split('T')[0];
+                const storageKey = `wordle_enhanced_${slug}_${date}`;
+
+                const grid = document.getElementById('guest-grid');
+                const form = document.getElementById('guest-form');
+                const input = document.getElementById('guest-input');
+                const remainingSpan = document.getElementById('guest-remaining');
+                const messageArea = document.getElementById('guest-message-area');
+
+                const letterCount = {{ preset.letter_count }};
+                const maxGuesses = {{ preset.max_guesses }};
+
+                function loadState() {
+                    const saved = localStorage.getItem(storageKey);
+                    return saved ? JSON.parse(saved) : { guesses: [], is_solved: false, is_failed: false };
+                }
+
+                function saveState(state) {
+                    localStorage.setItem(storageKey, JSON.stringify(state));
+                }
+
+                function render(state) {
+                    grid.innerHTML = '';
+                    messageArea.innerHTML = '';
+
+                    state.guesses.forEach(guessData => {
+                        // guessData is { guess: "WORD", result: [{letter: "W", state: "correct"}, ...] }
+                        const row = document.createElement('div');
+                        row.className = 'row';
+                        guessData.result.forEach(cellData => {
+                            const cell = document.createElement('div');
+                            cell.className = `cell ${cellData.state}`;
+                            cell.textContent = cellData.letter;
+                            row.appendChild(cell);
+                        });
+                        grid.appendChild(row);
+                    });
+
+                    // Empty rows
+                    for (let i = 0; i < maxGuesses - state.guesses.length; i++) {
+                        const row = document.createElement('div');
+                        row.className = 'row';
+                        for (let j = 0; j < letterCount; j++) {
+                            const cell = document.createElement('div');
+                            cell.className = 'cell';
+                            row.appendChild(cell);
+                        }
+                        grid.appendChild(row);
+                    }
+
+                    remainingSpan.textContent = maxGuesses - state.guesses.length;
+
+                    if (state.is_solved) {
+                        messageArea.innerHTML = '<div style="color: green; font-size: 1.2em; margin-bottom: 20px;">Congratulations! You solved it!</div>';
+                        form.style.display = 'none';
+                    } else if (state.guesses.length >= maxGuesses) {
+                        messageArea.innerHTML = '<div style="color: red; font-size: 1.2em; margin-bottom: 20px;">Game Over!</div>';
+                        form.style.display = 'none';
+                    }
+                }
+
+                let currentState = loadState();
+                render(currentState);
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const guess = input.value.trim().toUpperCase();
+
+                    if (guess.length !== letterCount) return;
+
+                    // Call validation endpoint
+                    const validateUrl = "{% if preset.slug %}{% url 'validate_guess' slug=preset.slug %}{% else %}{% url 'validate_guess_default' %}{% endif %}";
+
+                    fetch(validateUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({ guess: guess })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.valid) {
+                            currentState.guesses.push({
+                                guess: data.guess,
+                                result: data.result
+                            });
+                            currentState.is_solved = data.is_solved;
+                            saveState(currentState);
+                            render(currentState);
+                            input.value = '';
+                        } else {
+                            // Show error
+                            const msg = document.createElement('div');
+                            msg.textContent = data.error || "Invalid guess";
+                            msg.style.color = 'red';
+                            // Remove after 3s
+                            const existingMsg = document.querySelector('.temp-error');
+                            if (existingMsg) existingMsg.remove();
+                            msg.className = 'temp-error';
+                            form.parentNode.insertBefore(msg, form);
+                            setTimeout(() => msg.remove(), 3000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+            });
+        </script>
     {% endif %}
 {% endblock %}
