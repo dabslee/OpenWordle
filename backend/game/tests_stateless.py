@@ -47,3 +47,12 @@ class StatelessApiTests(TestCase):
         # Word bank
         response = self.client.post('/api/game/guess/', {'guess': 'XXXXX', 'preset': self.preset.slug}, format='json')
         self.assertEqual(response.status_code, 400)
+
+    def test_refresh_status(self):
+        response = self.client.get('/api/game/refresh/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('seconds_until_refresh', response.data)
+        self.assertIn('next_refresh_at', response.data)
+
+        # Basic sanity check (should be positive integer)
+        self.assertGreaterEqual(response.data['seconds_until_refresh'], 0)
