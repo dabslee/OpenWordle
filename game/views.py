@@ -7,15 +7,18 @@ from django.utils import timezone
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import login
+import json
+from game.templatetags.game_extras import wordle_colorize
 
-@login_required
 def browse_presets(request):
     query = request.GET.get('q')
     presets = GamePreset.objects.all()
     if query:
         presets = presets.filter(Q(title__icontains=query) | Q(description__icontains=query))
 
-    pinned_presets = request.user.pinned_presets.all()
+    pinned_presets = []
+    if request.user.is_authenticated:
+        pinned_presets = request.user.pinned_presets.all()
 
     context = {
         'presets': presets,
@@ -68,7 +71,6 @@ def toggle_pin(request, slug):
         request.user.pinned_presets.add(preset)
     return redirect('browse_presets')
 
-@login_required
 def play_game(request, slug=None):
     if slug is None:
         preset = get_object_or_404(GamePreset, slug='')
@@ -76,6 +78,17 @@ def play_game(request, slug=None):
         preset = get_object_or_404(GamePreset, slug=slug)
 
     game = Game.get_or_create_daily_game(preset)
+
+    if not request.user.is_authenticated:
+        # Guest mode
+        context = {
+            'game': game,
+            'preset': preset,
+            'is_guest': True,
+            'guesses': [], # Will be handled by JS
+            'remaining_guesses': preset.max_guesses,
+        }
+        return render(request, 'game/game.html', context)
 
     attempt, created = GameAttempt.objects.get_or_create(
         user=request.user,
@@ -113,8 +126,47 @@ def play_game(request, slug=None):
         'is_solved': is_solved,
         'is_failed': is_failed,
         'remaining_guesses': preset.max_guesses - len(attempt.guesses),
+        'is_guest': False,
     }
     return render(request, 'game/game.html', context)
+
+def validate_guess(request, slug=None):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        guess = data.get('guess', '').strip().upper()
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    if slug is None:
+        preset = get_object_or_404(GamePreset, slug='')
+    else:
+        preset = get_object_or_404(GamePreset, slug=slug)
+
+    game = Game.get_or_create_daily_game(preset)
+
+    if len(guess) != preset.letter_count:
+        return JsonResponse({'error': 'Invalid length'}, status=400)
+
+    valid_words = [w.strip().upper() for w in preset.word_bank.replace(',', ' ').split()]
+    if guess not in valid_words:
+        return JsonResponse({'error': 'Not in word bank', 'valid': False})
+
+    # Calculate colors
+    # Reusing the logic from template tag is slightly hacky but works if I import it or rewrite it.
+    # I imported `wordle_colorize` above.
+
+    colors_data = list(wordle_colorize(guess, game.answer))
+    # colors_data is [(letter, state), ...]
+
+    return JsonResponse({
+        'valid': True,
+        'guess': guess,
+        'result': [{'letter': l, 'state': s} for l, s in colors_data],
+        'is_solved': guess == game.answer
+    })
 
 def signup(request):
     if request.method == 'POST':
