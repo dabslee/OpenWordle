@@ -2,13 +2,31 @@
 	"info": {
 		"_postman_id": "wordle-enhanced-api",
 		"name": "Wordle Enhanced API",
-		"description": "Postman collection for Wordle Enhanced Django REST API",
+		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:** Before logging in or making POST requests, run the 'Get CSRF Token' request in the Auth folder to initialize the CSRF cookie.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Auth",
 			"item": [
+				{
+					"name": "Get CSRF Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Initializes the CSRF cookie by hitting the home page. Run this first."
+					},
+					"response": []
+				},
 				{
 					"name": "Signup",
 					"request": {
@@ -63,7 +81,8 @@
 								"login",
 								""
 							]
-						}
+						},
+						"description": "Logs in the user. Requires CSRF token (run 'Get CSRF Token' first)."
 					},
 					"response": []
 				},
