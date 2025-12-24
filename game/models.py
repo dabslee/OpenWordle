@@ -2,7 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 import random
+import re
 
 class GamePreset(models.Model):
     title = models.CharField(max_length=200)
@@ -15,6 +17,14 @@ class GamePreset(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        super().clean()
+        words = [w.strip() for w in self.word_bank.replace(',', ' ').split() if w.strip()]
+        invalid = [w for w in words if not re.fullmatch(r'[A-Za-z0-9]+', w)]
+        if invalid:
+            invalid_list = ", ".join(invalid)
+            raise ValidationError({'word_bank': f"Invalid entries: {invalid_list}. Only letters and numbers are allowed."})
 
 class User(AbstractUser):
     pinned_presets = models.ManyToManyField(GamePreset, blank=True, related_name='pinned_by')
