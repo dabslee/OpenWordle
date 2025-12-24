@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
     "corsheaders",
     "game",
+    "authentication",
 ]
 
 AUTH_USER_MODEL = "game.User"
