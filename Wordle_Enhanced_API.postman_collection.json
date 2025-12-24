@@ -11,19 +11,37 @@
 			"item": [
 				{
 					"name": "Get CSRF Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const html = pm.response.text();",
+									"const match = html.match(/name=\"csrfmiddlewaretoken\" value=\"([^\"]*)\"/);",
+									"if (match) {",
+									"    pm.collectionVariables.set(\"csrftoken\", match[1]);",
+									"    console.log(\"CSRF token extracted: \" + match[1]);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/",
+							"raw": "{{base_url}}/accounts/login/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
+								"accounts",
+								"login",
 								""
 							]
 						},
-						"description": "Initializes the CSRF cookie by hitting the home page. Run this first."
+						"description": "Fetches the login page to extract the CSRF token from the form. Run this first."
 					},
 					"response": []
 				},
@@ -378,9 +396,14 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"var csrf_token = pm.cookies.get('csrftoken');",
-					"if (csrf_token) {",
-					"    pm.request.headers.add({key: 'X-CSRFToken', value: csrf_token});",
+					"const token = pm.collectionVariables.get(\"csrftoken\");",
+					"if (token) {",
+					"    pm.request.headers.add({key: 'X-CSRFToken', value: token});",
+					"} else {",
+					"    const cookie = pm.cookies.get('csrftoken');",
+					"    if (cookie) {",
+					"        pm.request.headers.add({key: 'X-CSRFToken', value: cookie});",
+					"    }",
 					"}"
 				]
 			}
@@ -390,6 +413,11 @@
 		{
 			"key": "base_url",
 			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "csrftoken",
+			"value": "",
 			"type": "string"
 		}
 	]
