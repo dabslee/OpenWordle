@@ -1,19 +1,22 @@
 import React from 'react'
+import Text from './Text';
 
 interface Props {
-    key?: string;
+    id?: string;
     text?: string;
     onClick?: () => void;
 }
 
 const NavButton: React.FC<Props> = ({ 
-    key,
+    id,
     text, 
     onClick 
 }) => {
   return (
-    <button id={key} onClick={onClick}>
+    <button id={id} onClick={onClick}>
+      <Text>
         {text}
+      </Text>
     </button>
   )
 }

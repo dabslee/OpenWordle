@@ -8,10 +8,12 @@ const NavBar: React.FC<Props> = ({
     navButtonProps
 }) => {
   return (
-    <div style={{}}>
-        {navButtonProps?.map((buttonProps, key) => (
-            <NavButton key={String(key)} {...buttonProps}/>
-        ))}
+    <div className={"flex justify-center bg-secondary"} style={{width: "100%"}}>
+        <div className={"row pad-md gap-lg"} style={{width: "1032px"}}>
+            {navButtonProps?.map((buttonProps, key) => (
+                <NavButton key={key} id={String(key)} {...buttonProps}/>
+            ))}
+        </div>
     </div>
   )
 }

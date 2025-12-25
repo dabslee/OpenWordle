@@ -11,11 +11,13 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <NavBar navButtonProps={[
-          {text: "Home", onClick: () => router.push("/")},
-          {text: "Login", onClick: () => router.push("/login")},
-        ]}/>
-        {children}
+        <div style={{display: "flex", flexDirection: "column", height: "100vh", alignItems: "center"}}>
+          <NavBar navButtonProps={[
+            {text: "Home", onClick: () => router.push("/")},
+            {text: "Login", onClick: () => router.push("/login")},
+          ]}/>
+          {children}
+        </div>
       </body>
     </html>
   );

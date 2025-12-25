@@ -1,21 +1,12 @@
-import Link from "next/link";
 import './globals.css';
+import Text from "./components/Text";
 
 export default function HomePage() {
   return (
     <main>
-      <h1 className={'text-headline-h1'}>Home</h1>
-
-      <nav>
-        <ul>
-          <li>
-            <Link href="/presets">Presets</Link>
-          </li>
-          <li>
-            <Link href="/login">Login</Link>
-          </li>
-        </ul>
-      </nav>
+      <div>
+        <Text className={'text-headline-h1'}>Home</Text>
+      </div>
     </main>
   );
 }
