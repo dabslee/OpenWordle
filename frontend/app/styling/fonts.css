@@ -1,0 +1,35 @@
+/* fonts.css */
+
+/* 1. Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap');
+
+/* 2. Body text (Roboto) */
+.text-body-b1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px; /* b1 size */
+  line-height: 24px;
+  color: var(--color-text-primary);
+}
+
+/* 3. Headline (Press Start 2P) */
+.text-headline-h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-weight: 400; /* Press Start 2P is usually all caps 400 weight */
+  font-size: 32px; /* h1 size */
+  line-height: 36px;
+  color: var(--color-text-primary);
+}
+
+/* Optional: other sizes */
+.text-body-b2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.text-headline-h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 24px;
+  line-height: 28px;
+}

@@ -1,0 +1,5 @@
+/* padding */
+.pad-md { padding: var(--spacing-md); }
+
+/* border radius */
+.br-md { border-radius: var(--radius-md); }
