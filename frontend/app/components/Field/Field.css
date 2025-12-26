@@ -1,0 +1,74 @@
+.field-container {
+    padding: var(--spacing-md);
+    border-radius: var(--spacing-md);
+    display: block;
+    width: 100%;           /* full width of container */
+    box-sizing: border-box; /* ensures padding doesn't break width */
+    box-shadow: 6px 6px 0 0 var(--color-blk);
+    height: 100%;
+}
+
+.filled {
+    background: var(--color-white);
+}
+
+.outlined {
+    border: 2px solid var(--color-blk);
+}
+
+.field-input {
+    border: transparent;
+    display: block;
+    width: 100%;           /* full width of container */
+    box-sizing: border-box; /* ensures padding doesn't break width */
+    margin-top: 12px;
+    background: transparent;
+}
+
+.field-input:focus {
+    outline: none;
+}
+
+.field-placeholder {
+  position: absolute;
+  left: 18px;
+  pointer-events: none;
+
+  /* animation */
+  transition:
+    top 200ms ease,
+    transform 200ms ease,
+    font-size 200ms ease,
+    opacity 200ms ease;
+}
+
+/* centered (large) */
+.field-placeholder.is-centered {
+    top: 50%;
+    transform: translateY(-50%);
+    /* text-body-b1 */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 24px; /* b1 size */
+    line-height: 32px;
+    color: var(--color-text-primary);
+}
+
+/* floating (small) */
+.field-placeholder.is-floating {
+    top: 8px;
+    transform: translateY(0);
+    /* text-body-b2 */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    line-height: 20px;
+}
+
+/* ensure Text inherits */
+.field-placeholder-text {
+  font-size: inherit;
+  line-height: 1;
+}
+

@@ -1,7 +1,26 @@
 /* bg colors */
 .bg-primary { background-color: var(--color-bg-primary); }
 .bg-secondary { background-color: var(--color-bg-secondary); }
+.bg-primary-reverse { background-color: var(--color-bg-primary-reverse); }
+.bg-orange { background-color: var(--color-org); }
+.bg-blue { background-color: var(--color-blue); }
+.bg-red { background-color: var(--color-red); }
+.bg-green { background-color: var(--color-green); }
+.bg-yellow { background-color: var(--color-yellow); }
+.bg-purple { background-color: var(--color-purple); }
+.bg-peach { background-color: var(--color-peach); }
+.bg-transparent { background-color: transparent; }
 
 /* text colors */
 .text-primary { color: var(--color-text-primary); }
-.text-secondary { color: var(--color-text-secondary); }
+.text-primary-reverse { color: var(--color-text-primary-reverse); }
+.text-orange { background-color: var(--color-org); }
+.text-blue { background-color: var(--color-blue); }
+.text-red { background-color: var(--color-red); }
+.text-green { background-color: var(--color-green); }
+.text-yellow { background-color: var(--color-yellow); }
+.text-purple { background-color: var(--color-purple); }
+.text-peach { background-color: var(--color-peach); }
+
+/* drop shadow */
+.drop-shadow {  box-shadow: 6px 6px 0 0 var(--color-blk);}

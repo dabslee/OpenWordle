@@ -7,15 +7,23 @@
 .text-body-b1 {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  font-size: 16px; /* b1 size */
-  line-height: 24px;
-  color: var(--color-text-primary);
+  font-size: 24px; /* b1 size */
+  line-height: 32px;
 }
 
 .text-body-b2 {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 24px;
+  line-height: 20px;
+}
+
+.text-body-b3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 26px;
   line-height: 20px;
 }
 

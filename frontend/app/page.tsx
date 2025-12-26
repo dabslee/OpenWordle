@@ -1,12 +1,12 @@
-import './globals.css';
 import Text from "./components/Text";
+import Container from './components/Container/Container';
 
 export default function HomePage() {
   return (
-    <main>
-      <div>
-        <Text className={'text-headline-h1'}>Home</Text>
+      <div className={"flex justify-center bg-blue"} style={{flex: 1, width: "100%"}}>
+        <Container>
+          <Text className={'text-headline-h1'}>Wordle</Text>
+        </Container>
       </div>
-    </main>
   );
 }

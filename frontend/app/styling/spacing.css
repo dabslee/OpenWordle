@@ -11,18 +11,21 @@
 .justify-between {display: flex; justify-content: space-between;}
 
 /* padding */
+.pad-sm { padding: var(--spacing-sm); }
 .pad-md { padding: var(--spacing-md); }
 .pad-lg { padding: var(--spacing-lg); }
 .pad-xl { padding: var(--spacing-xl); }
 .pad-xxl { padding: var(--spacing-xxl); }
 .pad-xxxl { padding: var(--spacing-xxxl); }
 
+.pad-x-sm { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm);}
 .pad-x-md { padding-left: var(--spacing-md); padding-right: var(--spacing-md);}
 .pad-x-lg { padding-left: var(--spacing-lg); padding-right: var(--spacing-lg);}
 .pad-x-xl { padding-left: var(--spacing-xl); padding-right: var(--spacing-xl);}
 .pad-x-xxl { padding-left: var(--spacing-xxl); padding-right: var(--spacing-xxl);}
 .pad-x-xxxl { padding-left: var(--spacing-xxxl); padding-right: var(--spacing-xxxl);}
 
+.pad-y-sm { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm);}
 .pad-y-md { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md);}
 .pad-y-lg { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg);}
 .pad-y-xl { padding-top: var(--spacing-xl); padding-bottom: var(--spacing-xl);}
@@ -31,6 +34,7 @@
 
 /* border radius */
 .br-md { border-radius: var(--radius-md); }
+.br-lg { border-radius: var(--radius-lg); }
 
 /* gap */
 .gap-xs { gap: var(--spacing-xs); }
