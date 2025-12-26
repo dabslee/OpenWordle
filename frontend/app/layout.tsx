@@ -2,34 +2,16 @@
 import { usePathname, useRouter } from "next/navigation";
 import NavBar from "./components/NavBar/NavBar";
 import { useState, useEffect } from "react";
-import { getCurrentUser } from "./utils/authApi";
-import { User } from "./utils/types";
 import './globals.css';
+import { AppProvider } from "./utils/AppContext";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname();
   console.log(pathname)
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const currentUser = await getCurrentUser();
-        setUser(currentUser);
-      } catch (err) {
-        console.error("Failed to fetch user:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchUser();
-  }, []);
 
   const router = useRouter();
   const [currentLink, setCurrentLink] = useState<"home" | "login" | "browse">()
@@ -44,39 +26,40 @@ export default function RootLayout({
   return ( 
     <html>
       <body>
-        <div style={{display: "flex", flexDirection: "column", height: "100vh", alignItems: "center"}}>
-          { <NavBar 
-            navButtonProps={[
-            {
-              text: "Home", 
-              state: currentLink === "home" ? "selected" : "default",
-              onClick: () => {
-                setCurrentLink("home")
-                router.push("/")
-              }
-            },
-            {
-              text: "Browse presets", 
-              state: currentLink === "browse" ? "selected" : "default",
-              onClick: () => {
-                setCurrentLink("browse")
-                router.push("/browse-presets")
-              }
-            },
-          ]}
-            isLoggedIn = {!(loading || user === null)}
-            loginButtonProps={
+        <AppProvider>
+          <div style={{display: "flex", flexDirection: "column", height: "100vh", alignItems: "center"}}>
+            { (currentLink !== "login" && currentLink) && <NavBar 
+              navButtonProps={[
               {
-                text: "Login", 
+                text: "Home", 
+                state: currentLink === "home" ? "selected" : "default",
                 onClick: () => {
-                  setCurrentLink("login")
-                  router.push("/login")
+                  setCurrentLink("home")
+                  router.push("/")
+                }
+              },
+              {
+                text: "Browse presets", 
+                state: currentLink === "browse" ? "selected" : "default",
+                onClick: () => {
+                  setCurrentLink("browse")
+                  router.push("/browse-presets")
+                }
+              },
+            ]}
+              loginButtonProps={
+                {
+                  text: "Login", 
+                  onClick: () => {
+                    setCurrentLink("login")
+                    router.push("/login")
+                  }
                 }
               }
-            }
-          />}
-          {children}
-        </div>
+            />}
+            {children}
+          </div>
+        </AppProvider>
       </body>
     </html>
   );

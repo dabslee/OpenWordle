@@ -47,6 +47,7 @@ const Button: React.FC<Props> = ({
     const style = variantConfig[variant]
   return (
     <button 
+    type="button"
       id={id} 
       onClick={onClick} 
       className={`${(showDropShadow && variant !== "nav") ? "drop-shadow" : ""} ${style.selected} ${style.bgColor} ${style.br} ${style.pad} ${style.className}`}

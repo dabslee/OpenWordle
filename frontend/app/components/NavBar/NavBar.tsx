@@ -1,16 +1,19 @@
 import React from 'react'
 import Button from '../Button/Button';
+import { useApp } from '@/app/utils/AppContext';
 
 interface Props {
     navButtonProps: React.ComponentProps<typeof Button>[];
-    isLoggedIn?: boolean;
+    // isLoggedIn?: boolean;
     loginButtonProps?: React.ComponentProps<typeof Button>;
 }
 const NavBar: React.FC<Props> = ({ 
     navButtonProps,
-    isLoggedIn = false,
+    // isLoggedIn = false,
     loginButtonProps
 }) => {
+  const { isLoggedIn } = useApp();
+
   return (
     <div className={"flex justify-center bg-primary"} style={{width: "100%"}}>
         <div className={"row pad-md pad-y-lg justify-between"} style={{width: "1032px"}}>

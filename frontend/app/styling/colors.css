@@ -24,3 +24,6 @@
 
 /* drop shadow */
 .drop-shadow {  box-shadow: 6px 6px 0 0 var(--color-blk);}
+
+/* border */
+.border-primary { border: 2px solid var(--color-blk);}
