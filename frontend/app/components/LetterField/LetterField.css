@@ -1,0 +1,12 @@
+.field-input {
+    border: transparent;
+    display: flex;
+    width: 100%;           /* full width of container */
+    box-sizing: border-box; /* ensures padding doesn't break width */
+    background: transparent;
+    text-align: center;
+}
+
+.field-input:focus {
+    outline: none;
+}

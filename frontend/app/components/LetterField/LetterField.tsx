@@ -1,35 +1,58 @@
-import React from 'react'
-import Text from '../Text';
+import React, { forwardRef } from "react"
+import Text from "../Text"
+import "./LetterField.css"
 
 interface Props {
-    state?: "correct" | "contained" | "default"
-    value?: string;
-    onChange?: () => void;
+  variant?: "default" | "correct" | "contained" | "filled"
+  state?: "locked" | "active"
+  value?: string
+  onChange?: (value: string) => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
-const LetterField: React.FC<Props> = ({ 
-    state = "default",
-    value = "A",
-    onChange
-}) => {
+
+const LetterField = forwardRef<HTMLInputElement, Props>(
+  (
+    {
+      variant = "default",
+      state = "locked",
+      value = "",
+      onChange,
+      onKeyDown,
+    },
+    ref
+  ) => {
     const styling = {
-        correct: {
-            bg: "bg-green"
-        },
-        contained: {
-            bg: "bg-yellow"
-        },
-        default: {
-            bg: "bg-secondary"
-        },
+      correct: { bg: "bg-green" },
+      contained: { bg: "bg-yellow" },
+      filled: { bg: "bg-secondary" },
+      default: { bg: "bg-transparent" },
     }
-    const style = styling[state]
-  return (
-    <div 
-    className={`${style.bg} br-md border-primary pad-md flex align-center justify-center drop-shadow`} 
-    style={{height: "72px", width: "72px", boxSizing: "border-box"}}>
-        <Text className={"text-headline-h1"}> {value} </Text>
-    </div>
-  )
-}
+
+    const style = styling[variant]
+
+    return (
+      <div
+        className={`${style.bg} br-md border-primary pad-md flex align-center justify-center drop-shadow`}
+        style={{
+          height: "72px",
+          width: "72px",
+          boxSizing: "border-box",
+        }}
+      >
+        <input
+          ref={ref}
+          className="text-headline-h1 field-input text-center uppercase"
+          value={value}
+          maxLength={1}
+          readOnly={state === "locked"}
+          onChange={(e) => onChange?.(e.target.value)}
+          onKeyDown={onKeyDown}
+        />
+      </div>
+    )
+  }
+)
+
+LetterField.displayName = "LetterField"
 
 export default LetterField
