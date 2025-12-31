@@ -40,3 +40,11 @@ export interface GameState {
   status: "playing" | "solved" | "failed";
   results: LetterResult[][];
 }
+
+export interface GuessResponse {
+  guess: string;
+  result: LetterResult[];      // length 5
+  is_solved: boolean;
+  is_failed: boolean;
+  remaining_guesses: number | null;
+}

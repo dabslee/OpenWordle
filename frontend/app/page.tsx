@@ -2,12 +2,37 @@
 import React, {useState, useEffect} from "react";
 import Text from "./components/Text";
 import Container from './components/Container/Container';
-import LetterField from "./components/LetterField/LetterField";
 import LetterGroup from "./components/LetterGroup/LetterGroup";
+import { statelessGuess } from "./utils/gameApi";
+import { GuessResponse } from "./utils/types";
+import { Preset } from "./utils/types";
 
-const TOTAL_GUESSES = 5
+const TOTAL_GUESSES = 6
 
-const renderWords = (guesses?: string[], setGuesses) => {
+export default function HomePage() {
+  const [guesses, setGuesses] = useState<string[]>([])
+  const [results, setResults] = useState<GuessResponse[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const submitGuess = async (guess: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const result = await statelessGuess(guess);
+
+      setGuesses((prev) => [...prev, guess]);
+      setResults((prev) => [...prev, result]);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to submit guess");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderWords = (guesses?: string[]) => {
     const emptyGuesses = Array.from(
       { length: TOTAL_GUESSES - (guesses?.length || 0) },
       () => ""
@@ -17,29 +42,28 @@ const renderWords = (guesses?: string[], setGuesses) => {
     return (
       <>
         <div className="col gap-sm">
-          {guesses?.map((guess) => {
-            console.log("GUESS: ", guess?.[0])
+          {guesses?.map((guess, index) => {
             return (
             <LetterGroup 
               letters={[
-                { variant: "contained", value: guess?.[0] },
-                { variant: "correct", value: guess?.[1] },
-                { variant: "correct", value: guess?.[2] },
-                { variant: "filled", value: guess?.[3] },
-                { variant: "correct", value: guess?.[4] },
+                { variant: results[index]?.result[0].state, value: guess?.[0] },
+                { variant: results[index]?.result[1].state, value: guess?.[1] },
+                { variant: results[index]?.result[2].state, value: guess?.[2] },
+                { variant: results[index]?.result[3].state, value: guess?.[3] },
+                { variant: results[index]?.result[4].state, value: guess?.[4] },
               ]}
+              triggerSuccessAnimation = {results[index]?.is_solved}
             />)
-})}
+          })}
           {emptyGuesses.map((_, index) => (
             <LetterGroup
               key={`empty-${index}`}
+              isActive={index === activeRow}
               letters={Array.from({ length: 5 }, () => ({
                 variant: "default",
-                state: activeRow === index ? "active" : "locked"
+                state: index === activeRow ? "active" : "locked"
               }))}
-              onSubmitWord={(word) => {
-                setGuesses((prev) => [...prev, word])
-              }}
+              onSubmitWord={submitGuess}
             />
           ))}
         </div>
@@ -47,17 +71,14 @@ const renderWords = (guesses?: string[], setGuesses) => {
     )
 }
 
-export default function HomePage() {
-  const [guesses, setGuesses] = useState<string[]>([])
-  useEffect(() => {
-    console.log("Guesses: ", guesses)
-  }, [guesses])
   return (
       <div className={"flex justify-center bg-blue"} style={{flex: 1, width: "100%"}}>
-        <Container>
-          <Text className={'text-headline-h1'}>Wordle</Text>
-          <div className="row gap-sm">
-            {renderWords(guesses, setGuesses)}
+        <Container >
+          <div className="col align-center gap-lg">
+            <Text className={'text-headline-h1'}>Wordle</Text>
+            <div className="row gap-sm">
+                {renderWords(guesses, setGuesses)}
+            </div>
           </div>
         </Container>
       </div>

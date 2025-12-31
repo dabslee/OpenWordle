@@ -1,9 +1,8 @@
 import React, { forwardRef } from "react"
-import Text from "../Text"
 import "./LetterField.css"
 
 interface Props {
-  variant?: "default" | "correct" | "contained" | "filled"
+  variant?: "default" | "correct" | "present" | "absent"
   state?: "locked" | "active"
   value?: string
   onChange?: (value: string) => void
@@ -23,8 +22,8 @@ const LetterField = forwardRef<HTMLInputElement, Props>(
   ) => {
     const styling = {
       correct: { bg: "bg-green" },
-      contained: { bg: "bg-yellow" },
-      filled: { bg: "bg-secondary" },
+      present: { bg: "bg-yellow" },
+      absent: { bg: "bg-secondary" },
       default: { bg: "bg-transparent" },
     }
 

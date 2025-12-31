@@ -11,8 +11,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  console.log(pathname)
-
   const router = useRouter();
   const [currentLink, setCurrentLink] = useState<"home" | "login" | "browse">()
   
