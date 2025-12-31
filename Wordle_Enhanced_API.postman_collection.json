@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "wordle-enhanced-api",
 		"name": "Wordle Enhanced API",
-		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:**\n1. Use the Auth folder to Signup or Login.\n2. Both Signup and Login return a `token`. This token is automatically stored in the collection variable `token`.\n3. All requests except 'Stateless Guess', 'Refresh Status', and 'List Presets' use `Authorization: Token {{token}}`.\n4. Game state is tied to the authenticated user.",
+		"description": "Postman collection for Wordle Enhanced Django REST API. \n\n**Note:**\n1. Use the Auth folder to Signup or Login.\n2. Both Signup and Login return a `token`. This token is automatically stored in the collection variable `token`.\n3. All requests except 'Stateless Guess', 'Refresh Status', 'Get Game Answer', and 'List Presets' use `Authorization: Token {{token}}`.\n4. Game state is tied to the authenticated user.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -919,6 +919,69 @@
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"body": "{\n    \"seconds_until_refresh\": 3600,\n    \"next_refresh_at\": \"2023-10-27T00:00:00+00:00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Game Answer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/game/answer/?preset=daily-wordle",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								"answer",
+								""
+							],
+							"query": [
+								{
+									"key": "preset",
+									"value": "daily-wordle",
+									"description": "The slug of the preset to retrieve the answer for (optional)."
+								}
+							]
+						},
+						"description": "Retrieves the correct answer for the daily game. Rate limited to 10/minute."
+					},
+					"response": [
+						{
+							"name": "Game Answer Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/game/answer/?preset=daily-wordle",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"game",
+										"answer",
+										""
+									],
+									"query": [
+										{
+											"key": "preset",
+											"value": "daily-wordle",
+											"description": "The slug of the preset to retrieve the answer for (optional)."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"body": "{\n    \"answer\": \"APPLE\"\n}"
 						}
 					]
 				}
