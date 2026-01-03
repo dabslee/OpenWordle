@@ -21,12 +21,14 @@ export default function RootLayout({
       case "/browse-presets": setCurrentLink("browse"); break;
     }
   }, [pathname])
+
   return ( 
     <html>
       <body>
         <AppProvider>
           <div style={{display: "flex", flexDirection: "column", height: "100vh", alignItems: "center"}}>
-            { (currentLink !== "login" && currentLink) && <NavBar 
+            { (currentLink !== "login" && currentLink) && 
+            <NavBar 
               navButtonProps={[
               {
                 text: "Home", 

@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react"
 import LetterField from "../LetterField/LetterField"
 import "./LetterGroup.css"
+import { useIsMobile } from "@/app/utils/isMobile"
 
 interface Props {
   letters: React.ComponentProps<typeof LetterField>[]
   isActive?: boolean
+  isLoading?: boolean
+  onLetterChange?: (index: number, value: string) => void;
   onSubmitWord?: (word: string) => void
   triggerSuccessAnimation?: boolean;
 }
@@ -12,36 +15,28 @@ interface Props {
 const LetterGroup: React.FC<Props> = ({
   letters,
   isActive,
+  isLoading = false,
+  onLetterChange,
   onSubmitWord,
   triggerSuccessAnimation = false
 }) => {
+  const isMobile = useIsMobile()
   const inputRefs = useRef<HTMLInputElement[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
   const [shake, setShake] = useState(false)
   const [success, setSuccess] = useState(false)
 
   const [values, setValues] = useState<string[]>(
-    letters.map((l) => l.value || "")
+    letters.map((l) => l.value?.toUpperCase() || "")
   )
 
   // Sync letters prop if it changes
   useEffect(() => {
-    setValues(letters.map((l) => l.value || ""))
+    setValues(letters.map((l) => l.value?.toUpperCase()  || ""))
   }, [letters])
 
-  /**
-   * 👇 ONLY focus when row becomes active
-   */
-  useEffect(() => {
-    if (isActive) {
-      inputRefs.current[0]?.focus()
-    }
-  }, [isActive])
-
   const handleChange = (index: number, value: string) => {
-    const next = [...values]
-    next[index] = value
-    setValues(next)
+    onLetterChange?.(index, value);
 
     if (value && index < inputRefs.current.length - 1) {
       const nextIndex = index + 1
@@ -82,7 +77,7 @@ const LetterGroup: React.FC<Props> = ({
   }, [triggerSuccessAnimation])
 
   return (
-    <div className={`row gap-sm ${shake ? "shake" : ""}`}>
+    <div className={`row ${isMobile ? "gap-xs" : "gap-sm"} ${shake ? "shake" : ""}`}>
       {letters.map((letter, index) => (
         <div
           className={success ? "jump" : ""}
@@ -93,7 +88,7 @@ const LetterGroup: React.FC<Props> = ({
             {...letter}
             ref={(el) => {
               if (el) inputRefs.current[index] = el
-              if (index === activeIndex && isActive) {
+              if (index === activeIndex && isActive && !isLoading) {
                 el?.focus()
               }
             }}
@@ -101,8 +96,6 @@ const LetterGroup: React.FC<Props> = ({
             onChange={(value) => handleChange(index, value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             state={!isActive ? "locked" : "active"}
-            // className={success ? "jump" : ""}
-            // style={success ? { animationDelay: `${index * 0.1}s` } : {}}
           />
         </div>
       ))}

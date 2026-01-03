@@ -23,6 +23,7 @@
     box-sizing: border-box; /* ensures padding doesn't break width */
     margin-top: 12px;
     background: transparent;
+    text-align: left;
 }
 
 .field-input:focus {

@@ -1,6 +1,6 @@
 // src/api/gameApi.ts
 import { api } from "./api";
-import { GameState, LetterResult, GuessResponse } from "./types";
+import { GameState, LetterResult, GuessResponse, Preset } from "./types";
 
 export const getGameState = async (
   presetSlug?: string
@@ -31,7 +31,7 @@ export const submitGuess = async (
 
 export const statelessGuess = async (
   guess: string,
-  preset?: string
+  preset?: Preset,
 ): Promise<GuessResponse> => {
   const { data } = await api.post<GuessResponse>("/api/game/guess/", {
     guess,

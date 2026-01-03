@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react"
 import "./LetterField.css"
+import { useIsMobile } from "@/app/utils/isMobile"
 
 interface Props {
   variant?: "default" | "correct" | "present" | "absent"
@@ -20,6 +21,10 @@ const LetterField = forwardRef<HTMLInputElement, Props>(
     },
     ref
   ) => {
+
+    const isMobile = useIsMobile();
+    console.log("IS MOBILE?:", isMobile)
+
     const styling = {
       correct: { bg: "bg-green" },
       present: { bg: "bg-yellow" },
@@ -31,16 +36,16 @@ const LetterField = forwardRef<HTMLInputElement, Props>(
 
     return (
       <div
-        className={`${style.bg} br-md border-primary pad-md flex align-center justify-center drop-shadow`}
+        className={`${style.bg} br-md border-primary  flex align-center justify-center drop-shadow`}
         style={{
-          height: "72px",
-          width: "72px",
+          height: isMobile ? "48px" : "72px",
+          width: isMobile ? "48px" : "72px",
           boxSizing: "border-box",
         }}
       >
         <input
           ref={ref}
-          className="text-headline-h1 field-input text-center uppercase"
+          className={`${isMobile ? "text-headline-h3" : "text-headline-h1"} field-input text-center uppercase`}
           value={value}
           maxLength={1}
           readOnly={state === "locked"}

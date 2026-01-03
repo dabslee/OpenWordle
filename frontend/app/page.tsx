@@ -1,32 +1,39 @@
 "use client";
-import React, {useState, useEffect} from "react";
+import {useState, useEffect} from "react";
 import Text from "./components/Text";
 import Container from './components/Container/Container';
 import LetterGroup from "./components/LetterGroup/LetterGroup";
 import { statelessGuess } from "./utils/gameApi";
 import { GuessResponse } from "./utils/types";
-import { Preset } from "./utils/types";
+import { useIsMobile } from "./utils/isMobile";
 
 const TOTAL_GUESSES = 6
 
 export default function HomePage() {
+  const isMobile = useIsMobile()
   const [guesses, setGuesses] = useState<string[]>([])
   const [results, setResults] = useState<GuessResponse[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [currentGuess, setCurrentGuess] = useState<string[]>(Array(TOTAL_GUESSES).fill(""));
+
+  const activeRow = results.length || 0 === 0 ? 0 : (results.length || 0) - 1
+
+  useEffect(() => {
+    setCurrentGuess(Array(5).fill(""));
+  }, [activeRow])
 
   const submitGuess = async (guess: string) => {
     try {
       setLoading(true);
-      setError(null);
 
       const result = await statelessGuess(guess);
 
+      setCurrentGuess(Array(5).fill(""));
       setGuesses((prev) => [...prev, guess]);
       setResults((prev) => [...prev, result]);
     } catch (err) {
-      console.error(err);
-      setError("Failed to submit guess");
+      console.error("ERROR:" ,err);
+      setCurrentGuess(Array(5).fill(""));
     } finally {
       setLoading(false);
     }
@@ -37,35 +44,44 @@ export default function HomePage() {
       { length: TOTAL_GUESSES - (guesses?.length || 0) },
       () => ""
     )
-    // const activeGuess = (guesses?.length || 0)
-    const [activeRow, setActiveRow] = useState((guesses?.length || 0))
     return (
       <>
-        <div className="col gap-sm">
-          {guesses?.map((guess, index) => {
+        <div className={`col ${isMobile ? "gap-xs" : "gap-sm"}`}>
+          {results?.map((result) => {
+            const guessResult = result
             return (
             <LetterGroup 
               letters={[
-                { variant: results[index]?.result[0].state, value: guess?.[0] },
-                { variant: results[index]?.result[1].state, value: guess?.[1] },
-                { variant: results[index]?.result[2].state, value: guess?.[2] },
-                { variant: results[index]?.result[3].state, value: guess?.[3] },
-                { variant: results[index]?.result[4].state, value: guess?.[4] },
+                { variant: guessResult.result[0].state, value: guessResult.result[0].letter },
+                { variant: guessResult.result[1].state, value: guessResult.result[1].letter },
+                { variant: guessResult.result[2].state, value: guessResult.result[2].letter },
+                { variant: guessResult.result[3].state, value: guessResult.result[3].letter },
+                { variant: guessResult.result[4].state, value: guessResult.result[4].letter },
               ]}
-              triggerSuccessAnimation = {results[index]?.is_solved}
+              triggerSuccessAnimation = {guessResult.is_solved}
             />)
           })}
-          {emptyGuesses.map((_, index) => (
+          {emptyGuesses.map((_, index) => {
+            const isActiveRow = index === activeRow;
+            return(
             <LetterGroup
               key={`empty-${index}`}
               isActive={index === activeRow}
-              letters={Array.from({ length: 5 }, () => ({
+              letters={Array.from({ length: 5 }, (_, i) => ({
+                value: isActiveRow ? currentGuess[i] : "",
                 variant: "default",
                 state: index === activeRow ? "active" : "locked"
               }))}
+              onLetterChange={(i, val) => {
+                if (!isActiveRow) return;
+                const next = [...currentGuess];
+                next[i] = val;
+                setCurrentGuess(next);
+              }}
               onSubmitWord={submitGuess}
+              isLoading={loading}
             />
-          ))}
+            )})}
         </div>
       </>
     )
@@ -77,7 +93,7 @@ export default function HomePage() {
           <div className="col align-center gap-lg">
             <Text className={'text-headline-h1'}>Wordle</Text>
             <div className="row gap-sm">
-                {renderWords(guesses, setGuesses)}
+                {renderWords(guesses)}
             </div>
           </div>
         </Container>

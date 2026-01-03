@@ -23,7 +23,15 @@
 .text-peach { background-color: var(--color-peach); }
 
 /* drop shadow */
-.drop-shadow {  box-shadow: 6px 6px 0 0 var(--color-blk);}
+.drop-shadow {
+  box-shadow: 6px 6px 0 0 var(--color-blk);
+}
+
+@media (max-width: 1032px) {
+  .drop-shadow {
+    box-shadow: 3px 3px 0 0 var(--color-blk);
+  }
+}
 
 /* border */
 .border-primary { border: 2px solid var(--color-blk);}
