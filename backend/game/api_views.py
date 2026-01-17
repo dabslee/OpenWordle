@@ -172,6 +172,24 @@ class StatelessGuessView(views.APIView):
             'remaining_guesses': None
         })
 
+class GameAnswerView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'stateless_guess'
+
+    def get(self, request):
+        preset_slug = request.query_params.get('preset')
+        if preset_slug:
+            preset = get_object_or_404(GamePreset, slug=preset_slug)
+        else:
+            preset = GamePreset.objects.first()
+            if not preset:
+                 return Response({'error': 'No presets found'}, status=404)
+
+        game = Game.get_or_create_daily_game(preset)
+        return Response({'answer': game.answer})
+
+
 class GameRefreshStatusView(views.APIView):
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ScopedRateThrottle]

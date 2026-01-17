@@ -30,6 +30,7 @@ urlpatterns = [
     # API URLs
     path('api/', include(router.urls)),
     path('api/game/guess/', api_views.StatelessGuessView.as_view(), name='api_game_guess'),
+    path('api/game/answer/', api_views.GameAnswerView.as_view(), name='api_game_answer'),
     path('api/game/refresh/', api_views.GameRefreshStatusView.as_view(), name='api_game_refresh'),
     path('api/game/', api_views.GameView.as_view(), name='api_game'),
 ] + backend_ui
