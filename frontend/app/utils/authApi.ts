@@ -29,17 +29,40 @@ export const signup = async (
 
 
 export const loginHelper = async (username: string, password: string) => {
-  const csrftoken = getCookie("csrftoken"); // implement this
-  await api.post("/accounts/login/?next=/", new URLSearchParams({
-    username,
-    password,
-  }), {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "X-CSRFToken": csrftoken,
-    },
-    withCredentials: true,
-  });
+  const csrftoken = getCookie("csrftoken");
+
+  try {
+    const response = await api.post(
+      "/accounts/login/?next=/",
+      new URLSearchParams({ username, password }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": csrftoken || "",
+        },
+        withCredentials: true,
+        validateStatus: (status) => true, // allow all statuses, we'll handle manually
+      }
+    );
+
+    // Django usually returns 200 even on failed login with a form error,
+    // but if using DRF or JSON login, it may return 400 or 401
+    if (response.status === 200) {
+      // Success: you might want to check if user is actually logged in
+      return { success: true, data: response.data };
+    } else {
+      // Failed login
+      return {
+        success: false,
+        status: response.status,
+        message:
+          response.data?.error || response.data?.non_field_errors?.[0] || "Invalid credentials",
+      };
+    }
+  } catch (err: any) {
+    // Network or unexpected error
+    return { success: false, message: err.message || "Unknown error" };
+  }
 };
 
 export const logout = async (): Promise<void> => {

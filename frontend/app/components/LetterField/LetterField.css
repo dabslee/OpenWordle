@@ -1,4 +1,4 @@
-.field-input {
+.letter-field-input {
     border: transparent;
     display: flex;
     width: 100%;           /* full width of container */
@@ -7,10 +7,27 @@
     text-align: center;
 }
 
-.field-input:focus {
+.letter-field-input:focus {
     outline: none;
 }
-
-.mobile {
-    
+.button-cursor {
+    cursor: pointer;
 }
+
+.locked-cursor {
+    cursor: default;
+}
+
+.default {
+    background-color: transparent;
+}
+.correct {
+    background-color: var(--color-green);
+}
+.present {
+    background-color: var(--color-yellow);
+}
+.absent {
+    background-color: var(--color-grey);
+}
+

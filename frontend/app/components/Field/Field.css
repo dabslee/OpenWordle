@@ -4,7 +4,7 @@
     display: block;
     width: 100%;           /* full width of container */
     box-sizing: border-box; /* ensures padding doesn't break width */
-    box-shadow: 6px 6px 0 0 var(--color-blk);
+    box-shadow: 6px 6px 0 0 var(--color-black);
     height: 100%;
 }
 
@@ -13,7 +13,7 @@
 }
 
 .outlined {
-    border: 2px solid var(--color-blk);
+    border: 2px solid var(--color-black);
 }
 
 .field-input {
@@ -21,9 +21,10 @@
     display: block;
     width: 100%;           /* full width of container */
     box-sizing: border-box; /* ensures padding doesn't break width */
-    margin-top: 12px;
     background: transparent;
+    margin-top: 12px;
     text-align: left;
+
 }
 
 .field-input:focus {

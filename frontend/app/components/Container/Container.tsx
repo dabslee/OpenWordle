@@ -9,7 +9,7 @@ const Container: React.FC<Props> = ({
     style
 }) => {
   return (
-    <div className={"col align-center pad-y-xl"} style={{width: "1032px", ...style}}>
+    <div className={"col align-center pad-y-xl"} style={{textAlign: 'center', width: "1032px", ...style}}>
         {children}
     </div>
   )

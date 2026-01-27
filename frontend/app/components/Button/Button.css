@@ -11,7 +11,7 @@
   content: "";
   position: absolute;
   left: 0;
-  bottom: -6px; /* spacing under text */
+  bottom: -8px; /* spacing under text */
   width: 100%;
   height: 4px;
   background-color: currentColor;
@@ -40,11 +40,15 @@
 .secondary-button {
   display: block;
   box-sizing: border-box;
-  border: 2px solid var(--color-blk);
 }
 
 .primary-button:active {
   margin: 2px -2px -2px 2px;
-  box-shadow: 4px 4px 0 0 var(--color-blk);
+  box-shadow: 4px 4px 0 0 var(--color-black);
+}
+
+.secondary-button:active {
+  margin: 2px -2px -2px 2px;
+  box-shadow: 4px 4px 0 0 var(--color-black);
 }
 

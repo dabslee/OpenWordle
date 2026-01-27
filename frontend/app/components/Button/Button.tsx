@@ -1,16 +1,28 @@
 import React from 'react'
 import Text from '../Text';
 import "./Button.css"
+import { COLORS } from '@/app/styling/colors';
 
 interface Props {
     id?: string;
     size?: "large" | "small"
-    variant?: "primary" | "secondary" | "nav"
+    variant?: "primary" | "secondary" | "nav" | "link"
     text?: string;
     state?: "default" | "selected"
     onClick?: () => void;
     showDropShadow?: boolean;
 }
+
+type Variant = {
+  bgColor?: string;
+  br?: string;
+  pad?: string;
+  className?: string;
+  style?: React.CSSProperties;
+  textColor?: string;
+  selected?: string;
+  showDropShadow?: boolean;
+};
 
 const Button: React.FC<Props> = ({ 
     id,
@@ -21,27 +33,50 @@ const Button: React.FC<Props> = ({
     onClick ,
     showDropShadow = true,
 }) => {
-    const variantConfig = {
+    const isLarge = size === "large" 
+    const variantConfig: Record<string, Variant> = {
         primary: {
             bgColor: "bg-yellow",
-            selected: "",
-            br: "br-lg",
-            pad: "pad-x-md pad-y-sm",
-            className: "primary-button"
+            br: "br-xxl",
+            pad: isLarge ? "pad-x-md pad-y-sm" : "pad-x-md pad-y-xs",
+            className: "primary-button border-primary",
+            style: {
+              height: isLarge ? "64px" : "48px",
+              width: isLarge ? "100%" : ""
+            },
+            showDropShadow: showDropShadow,
         },
         secondary: {
             bgColor: "bg-transparent",
             selected: "",
-            br: "br-lg",
+            br: "br-xxl",
             pad: "pad-x-md pad-y-sm",
-            className: "secondary-button"
+            className: "secondary-button border-primary",
+            style: {
+              height: isLarge ? "64px" : "48px",
+              width: isLarge ? "100%" : ""
+            },
+            showDropShadow: showDropShadow,
         },
         nav: {
             bgColor: "bg-transparent",
             selected: state === "selected" ? "is-selected" : "",
+            className: "nav-button",
+            style: { height: 'fit-content', width: size === "large" ? "100%" : "" },
+            showDropShadow: false,
+        },
+        link: {
+            bgColor: "bg-transparent",
+            textColor: "text-blue",
+            className: "link-button",
+            style: { height: 'fit-content', width: size === "large" ? "100%" : "", textDecoration: "underline", textDecorationColor: COLORS.blue},
+            showDropShadow: false,
+        },
+        default: {
+            textColor: "text-primary",
+            selected: "",
             br: "",
             pad: "",
-            className: "nav-button"
         }
     }
     const style = variantConfig[variant]
@@ -50,13 +85,10 @@ const Button: React.FC<Props> = ({
     type="button"
       id={id} 
       onClick={onClick} 
-      className={`${(showDropShadow && variant !== "nav") ? "drop-shadow" : ""} ${style.selected} ${style.bgColor} ${style.br} ${style.pad} ${style.className}`}
-      style={{
-        height: size === "large" ? "72px" : "",
-        width: size === "large" ? "100%" : ""
-      }}
+      className={`${(style.showDropShadow) ? "drop-shadow" : ""} ${style.selected} ${style.bgColor} ${style.br} ${style.pad} ${style.className}`}
+      style={style.style}
       >
-      <Text className={"text-headline-h2"}>
+      <Text className={`text-headline-h3 ${style.textColor}`}>
         {text}
       </Text>
     </button>

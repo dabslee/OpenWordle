@@ -1,13 +1,15 @@
-import React, { forwardRef } from "react"
+import React, { forwardRef, useEffect, useState } from "react"
 import "./LetterField.css"
 import { useIsMobile } from "@/app/utils/isMobile"
 
 interface Props {
   variant?: "default" | "correct" | "present" | "absent"
-  state?: "locked" | "active"
+  state?: "locked" | "active" | "button"
+  size?: "large" | "small"
   value?: string
   onChange?: (value: string) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  onClick?: () => void;
 }
 
 const LetterField = forwardRef<HTMLInputElement, Props>(
@@ -15,40 +17,32 @@ const LetterField = forwardRef<HTMLInputElement, Props>(
     {
       variant = "default",
       state = "locked",
+      size = "large",
       value = "",
       onChange,
       onKeyDown,
+      onClick
     },
     ref
   ) => {
-
-    const isMobile = useIsMobile();
-    console.log("IS MOBILE?:", isMobile)
-
-    const styling = {
-      correct: { bg: "bg-green" },
-      present: { bg: "bg-yellow" },
-      absent: { bg: "bg-secondary" },
-      default: { bg: "bg-transparent" },
-    }
-
-    const style = styling[variant]
-
+ 
     return (
       <div
-        className={`${style.bg} br-md border-primary  flex align-center justify-center drop-shadow`}
+      key={variant + "_" + value}
+        className={`${variant} br-md border-primary  flex align-center justify-center`}
         style={{
-          height: isMobile ? "48px" : "72px",
-          width: isMobile ? "48px" : "72px",
+          height: size === "large" ? "48px" : "34px",
+          width: size === "large" ? "48px" : "34px",
           boxSizing: "border-box",
         }}
+        onClick={onClick}
       >
         <input
           ref={ref}
-          className={`${isMobile ? "text-headline-h3" : "text-headline-h1"} field-input text-center uppercase`}
+          className={`${size === "large" ? 'text-headline-h2' : 'text-headline-h4'} letter-field-input text-center uppercase ${state === "button" && "button-cursor"} ${state === "locked" && "locked-cursor"}`}
           value={value}
           maxLength={1}
-          readOnly={state === "locked"}
+          readOnly={state === "locked" || state === "button"}
           onChange={(e) => onChange?.(e.target.value)}
           onKeyDown={onKeyDown}
         />

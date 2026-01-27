@@ -4,3 +4,4 @@ db.sqlite3
 /verification/
 venv/
 .env
+/node_modules/

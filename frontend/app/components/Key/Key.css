@@ -1,0 +1,32 @@
+.key {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: 16px;
+  user-select: none;
+}
+
+/* States */
+.key--default {
+  background: transparent;
+}
+
+.key--absent {
+  background: #b0b0b0;
+  color: white;
+}
+
+.key--present {
+  background: #f4c430; /* yellow */
+  color: white;
+}
+
+.key--correct {
+  background: #4caf50;
+  color: white;
+}

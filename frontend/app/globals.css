@@ -13,8 +13,8 @@
   --color-text-primary: #1A1A1A;
   --color-text-primary-reverse: #EAEAEA;
 
-  --color-org: #FF4F00;
-  --color-blk: #1A1A1A;
+  --color-orange: #FF4F00;
+  --color-black: #1A1A1A;
   --color-blue: #77C9D8;
   --color-white: #EAEAEA;
   --color-grey: #B5B5B5;
@@ -25,6 +25,7 @@
   --color-peach: #FF6F61;
 
   /* Spacing */
+  --spacing-xxs: 2px;
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -32,11 +33,14 @@
   --spacing-xl: 32px;
   --spacing-xxl: 48px;
   --spacing-xxxl: 64px;
+  --spacing-xxxl: 128px;
 
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-xxl: 32px;
 
   /* Font Sizes */
   --font-xs: 12px;

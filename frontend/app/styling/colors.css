@@ -2,7 +2,7 @@
 .bg-primary { background-color: var(--color-bg-primary); }
 .bg-secondary { background-color: var(--color-bg-secondary); }
 .bg-primary-reverse { background-color: var(--color-bg-primary-reverse); }
-.bg-orange { background-color: var(--color-org); }
+.bg-orange { background-color: var(--color-orange); }
 .bg-blue { background-color: var(--color-blue); }
 .bg-red { background-color: var(--color-red); }
 .bg-green { background-color: var(--color-green); }
@@ -14,24 +14,18 @@
 /* text colors */
 .text-primary { color: var(--color-text-primary); }
 .text-primary-reverse { color: var(--color-text-primary-reverse); }
-.text-orange { background-color: var(--color-org); }
-.text-blue { background-color: var(--color-blue); }
-.text-red { background-color: var(--color-red); }
-.text-green { background-color: var(--color-green); }
-.text-yellow { background-color: var(--color-yellow); }
-.text-purple { background-color: var(--color-purple); }
-.text-peach { background-color: var(--color-peach); }
+.text-orange { color: var(--color-orange); }
+.text-blue { color: var(--color-blue); }
+.text-red { color: var(--color-red); }
+.text-green { color: var(--color-green); }
+.text-yellow { color: var(--color-yellow); }
+.text-purple { color: var(--color-purple); }
+.text-peach { color: var(--color-peach); }
 
 /* drop shadow */
 .drop-shadow {
-  box-shadow: 6px 6px 0 0 var(--color-blk);
-}
-
-@media (max-width: 1032px) {
-  .drop-shadow {
-    box-shadow: 3px 3px 0 0 var(--color-blk);
-  }
+  box-shadow: 4px 4px 0 0 var(--color-black);
 }
 
 /* border */
-.border-primary { border: 2px solid var(--color-blk);}
+.border-primary { border: 2px solid var(--color-black);}

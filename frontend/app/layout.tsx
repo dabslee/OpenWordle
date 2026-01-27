@@ -26,37 +26,39 @@ export default function RootLayout({
     <html>
       <body>
         <AppProvider>
-          <div style={{display: "flex", flexDirection: "column", height: "100vh", alignItems: "center"}}>
-            { (currentLink !== "login" && currentLink) && 
-            <NavBar 
-              navButtonProps={[
-              {
-                text: "Home", 
-                state: currentLink === "home" ? "selected" : "default",
-                onClick: () => {
-                  setCurrentLink("home")
-                  router.push("/")
-                }
-              },
-              {
-                text: "Browse presets", 
-                state: currentLink === "browse" ? "selected" : "default",
-                onClick: () => {
-                  setCurrentLink("browse")
-                  router.push("/browse-presets")
-                }
-              },
-            ]}
-              loginButtonProps={
-                {
-                  text: "Login", 
-                  onClick: () => {
-                    setCurrentLink("login")
-                    router.push("/login")
+          <div style={{position: 'relative', display: "flex", flexDirection: "column", height: "100vh", alignItems: "center"}}>
+            <div style={{position: 'absolute', left: 0, right: 0, top: 0}}>
+              { (currentLink !== "login" && currentLink) && 
+                <NavBar 
+                  navButtonProps={[
+                  {
+                    text: "HOME", 
+                    state: currentLink === "home" ? "selected" : "default",
+                    onClick: () => {
+                      setCurrentLink("home")
+                      router.push("/")
+                    }
+                  },
+                  {
+                    text: "BROWSE PRESETS", 
+                    state: currentLink === "browse" ? "selected" : "default",
+                    onClick: () => {
+                      setCurrentLink("browse")
+                      router.push("/browse-presets")
+                    }
+                  },
+                ]}
+                  loginButtonProps={
+                    {
+                      text: "LOGIN", 
+                      onClick: () => {
+                        setCurrentLink("login")
+                        router.push("/login")
+                      }
+                    }
                   }
-                }
-              }
-            />}
+                />}
+            </div>
             {children}
           </div>
         </AppProvider>
