@@ -1,0 +1,28 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5); /* dim background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    pointer-events: auto;
+    /* transform: translate(-2px, -2px); to account for drop shoadow as well  */
+}
+
+.modal-background {
+    height: 506px;
+    width: 506px;
+    box-sizing: border-box;
+}
+
+.modal-text-container {
+    width: 100%;
+}
+
+.modal-content {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    pointer-events: auto;
+}

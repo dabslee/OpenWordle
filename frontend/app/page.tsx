@@ -9,6 +9,8 @@ import { useIsMobile } from "./utils/isMobile";
 import SnackBar from "./components/SnackBar/SnackBar";
 import Keyboard from "./components/Keyboard/Keyboard";
 import Cookies from 'js-cookie';
+import Modal from './components/Modal/Modal'
+import ResultSummary from "./components/ResultSummary/ResultSummary";
 
 const TOTAL_GUESSES = 6
 
@@ -18,6 +20,7 @@ const handleClear = () => {
     Cookies.remove("wordle_guesses");
     Cookies.remove("wordle_results");
     Cookies.remove("wordle_currentGuess");
+    Cookies.remove("wordle_gameState");
     window.location.reload(); // optional: reload to reset state
   };
 
@@ -33,6 +36,7 @@ export default function HomePage() {
   const [results, setResults] = useState<GuessResponse[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(""));
   const [gameState, setGameState] = useState({isSolved: false, isFailed: false})
+  const [open, setOpen] = useState(false); // open state for success modal
 
   // After mount, read cookies and update state
   useEffect(() => {
@@ -63,6 +67,7 @@ export default function HomePage() {
 
   useEffect(() => {
     Cookies.set("wordle_gameState", JSON.stringify(gameState), { expires: COOKIE_EXPIRY_DAYS });
+    if(gameState.isSolved) {setOpen(true)} // open modal when won
   }, [gameState]);
   
   useEffect(() => {
@@ -217,6 +222,13 @@ const getKeyboardStates = () => {
                 message={error.response.data.error}
               />
             )}
+            {open &&
+             <Modal open={open} variant="success" onClose={() => setOpen(false)} header="share you results">
+              <div className="col align-center justify-cente gap-lg"> 
+                <ResultSummary results={results} />
+                <Text className={"text-body-b1"} showCopy copyProps={{onClick: () => alert("copied")}}> Copy results </Text>
+              </div>
+            </Modal>}
             <div style={{position: isMobile ? 'absolute' : undefined, bottom: 24}}>
               <Keyboard letterStates={getKeyboardStates()}  onKeyPress={handleInput}/>
             </div>
