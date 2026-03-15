@@ -1,0 +1,47 @@
+/* Fullscreen container */
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Outer frame */
+.loader-frame {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around; 
+  padding: 0 10px;
+}
+
+/* Inner cubes */
+.loader-cube {
+  width: 20px;
+  height: 20px;
+  box-shadow: 3px 3px 0 var(--color-black);
+  animation: bounce 0.25s infinite alternate;
+}
+
+/* Add delays to stagger the bounce */
+.cube1 {
+  animation-delay: 0s;
+}
+.cube2 {
+  animation-delay: 0.1s;
+}
+.cube3 {
+  animation-delay: 0.2s;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-30px);
+  }
+}

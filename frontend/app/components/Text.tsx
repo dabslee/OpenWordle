@@ -16,7 +16,7 @@ const Text: React.FC<Props> = ({
     copyProps
 }) => {
   return (
-    <div className="row gap-sm align-center">
+    <div className="row gap-sm align-center" style={{cursor: "default"}}>
       <div className={className}>
         {children}
       </div>

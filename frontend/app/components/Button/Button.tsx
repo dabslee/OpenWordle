@@ -2,6 +2,7 @@ import React from 'react'
 import Text from '../Text';
 import "./Button.css"
 import { COLORS } from '@/app/styling/colors';
+import Icon from '../Icon/Icon';
 
 interface Props {
     id?: string;
@@ -11,6 +12,7 @@ interface Props {
     state?: "default" | "selected"
     onClick?: () => void;
     showDropShadow?: boolean;
+    iconName?: string;
 }
 
 type Variant = {
@@ -32,6 +34,7 @@ const Button: React.FC<Props> = ({
     state = "default",
     onClick ,
     showDropShadow = true,
+    iconName,
 }) => {
     const isLarge = size === "large" 
     const variantConfig: Record<string, Variant> = {
@@ -85,12 +88,13 @@ const Button: React.FC<Props> = ({
     type="button"
       id={id} 
       onClick={onClick} 
-      className={`${(style.showDropShadow) ? "drop-shadow" : ""} ${style.selected} ${style.bgColor} ${style.br} ${style.pad} ${style.className}`}
+      className={`flex align-center justify-center gap-sm ${(style.showDropShadow) ? "drop-shadow" : ""} ${style.selected} ${style.bgColor} ${style.br} ${style.pad} ${style.className}`}
       style={style.style}
       >
       <Text className={`text-headline-h3 ${style.textColor}`}>
         {text}
       </Text>
+      {iconName && <Icon name={iconName} size="24px"/>}
     </button>
   )
 }

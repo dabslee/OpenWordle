@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useState } from "react"
 import "./LetterField.css"
-import { useIsMobile } from "@/app/utils/isMobile"
+import { useIsMobile, useIsPhone } from "@/app/utils/isMobile"
 
 interface Props {
   variant?: "default" | "correct" | "present" | "absent"
@@ -25,14 +25,17 @@ const LetterField = forwardRef<HTMLInputElement, Props>(
     },
     ref
   ) => {
+
+    const isMobile = useIsMobile()
+    const isPhone = useIsPhone()
  
     return (
       <div
-      key={variant + "_" + value}
-        className={`${variant} br-md border-primary  flex align-center justify-center`}
+        key={variant + "_" + value}
+        className={`${variant} br-md border-primary  flex align-center justify-center pad-xs`}
         style={{
-          height: size === "large" ? "48px" : "34px",
-          width: size === "large" ? "48px" : "34px",
+          height: size === "large" ? "48px" : (isPhone ? "9vw" : "32px"),
+          width: size === "large" ? "48px" : (isPhone ? "9vw" : "32px"),
           boxSizing: "border-box",
         }}
         onClick={onClick}
@@ -42,7 +45,7 @@ const LetterField = forwardRef<HTMLInputElement, Props>(
           className={`${size === "large" ? 'text-headline-h2' : 'text-headline-h4'} letter-field-input text-center uppercase ${state === "button" && "button-cursor"} ${state === "locked" && "locked-cursor"}`}
           value={value}
           maxLength={1}
-          readOnly={state === "locked" || state === "button"}
+          readOnly={isMobile ? true : (state === "locked" || state === "button")}
           onChange={(e) => onChange?.(e.target.value)}
           onKeyDown={onKeyDown}
         />

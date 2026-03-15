@@ -1,18 +1,18 @@
 /* fonts.css */
 
 /* 1. Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap");
 
 /* 2. Body text (Roboto) */
 .text-body-b1 {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 24px; /* b1 size */
   line-height: 32px;
 }
 
 .text-body-b2 {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -20,7 +20,7 @@
 }
 
 .text-body-b3 {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 26px;
@@ -29,7 +29,7 @@
 
 /* 3. Headline (Montserrat) */
 .text-headline-h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700; /* bold for headlines */
   font-size: 32px; /* h1 size */
   line-height: 36px;
@@ -37,7 +37,7 @@
 }
 
 .text-headline-h2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 24px; /* h2 size */
   line-height: 28px;
@@ -45,7 +45,7 @@
 }
 
 .text-headline-h3 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 20px; /* h3size */
   line-height: 18px;
@@ -53,7 +53,7 @@
 }
 
 .text-headline-h4 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 16px; /* h4 size */
   line-height: 16px;

@@ -7,17 +7,24 @@
     justify-content: center;
     z-index: 1;
     pointer-events: auto;
-    /* transform: translate(-2px, -2px); to account for drop shoadow as well  */
+}
+
+.modal-animation {
+    transform: translate(-2px, -2px); /*to account for drop shoadow as well */
+    opacity: 0;
+    animation: fadeIn 400ms ease-out forwards;
 }
 
 .modal-background {
-    height: 506px;
+    height: fit-content;
     width: 506px;
+    max-width: calc(100vw - 32px);
     box-sizing: border-box;
 }
 
 .modal-text-container {
     width: 100%;
+    min-height: 36px;
 }
 
 .modal-content {
@@ -25,4 +32,22 @@
     width: 100%;
     box-sizing: border-box;
     pointer-events: auto;
+}
+.content-animation {
+    transform: translateY(10px);
+    opacity: 0;
+    animation: slideIn 500ms ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -1,33 +1,31 @@
 .letter-field-input {
-    border: transparent;
-    display: flex;
-    width: 100%;           /* full width of container */
-    box-sizing: border-box; /* ensures padding doesn't break width */
-    background: transparent;
-    text-align: center;
+  border: transparent;
+  display: flex;
+  max-width: 100%;
+  background: transparent;
+  text-align: center;
 }
 
 .letter-field-input:focus {
-    outline: none;
+  outline: none;
 }
 .button-cursor {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .locked-cursor {
-    cursor: default;
+  cursor: default;
 }
 
 .default {
-    background-color: transparent;
+  background-color: var(--color-white);
 }
 .correct {
-    background-color: var(--color-green);
+  background-color: var(--color-green);
 }
 .present {
-    background-color: var(--color-yellow);
+  background-color: var(--color-yellow);
 }
 .absent {
-    background-color: var(--color-grey);
+  background-color: var(--color-bg-secondary);
 }
-

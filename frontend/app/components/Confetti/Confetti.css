@@ -1,0 +1,50 @@
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* prevents blocking clicks */
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.confetti {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform-origin: left top;
+  animation: confetti 5s ease-in-out infinite;
+}
+/* 
+  --color-orange: #FF4F00;
+  --color-black: #1A1A1A;
+  --color-blue: #77C9D8;
+  --color-white: #EAEAEA;
+  --color-grey: #B5B5B5;
+  --color-red: #D50032;
+  --color-green: #4CAF50;
+  --color-yellow: #F1C40F;
+  --color-purple: #8E44AD;
+  --color-peach: #FF6F61; */
+
+/* Individual pieces */
+.confetti:nth-child(1) { background-color: var(--color-yellow); left: 10%; animation-delay: 0s; }
+.confetti:nth-child(2) { background-color: var(--color-green); left: 20%; animation-delay: -5s; }
+.confetti:nth-child(3) { background-color: var(--color-red); left: 30%; animation-delay: -3s; }
+.confetti:nth-child(4) { background-color: var(--color-peach); left: 40%; animation-delay: -2.5s; }
+.confetti:nth-child(5) { background-color: var(--color-orange); left: 50%; animation-delay: -4s; }
+.confetti:nth-child(6) { background-color: var(--color-purple); left: 60%; animation-delay: -6s; }
+.confetti:nth-child(7) { background-color: var(--color-blue); left: 70%; animation-delay: -1.5s; }
+.confetti:nth-child(8) { background-color: var(--color-blue); left: 80%; animation-delay: -2s; }
+.confetti:nth-child(9) { background-color: var(--color-peach); left: 90%; animation-delay: -3.5s; }
+.confetti:nth-child(10) { background-color: var(--color-yellow); left: 100%; animation-delay: -2.5s; }
+
+@keyframes confetti {
+  0% { transform: rotateZ(15deg) rotateY(0deg) translate(0, 0); }
+  25% { transform: rotateZ(5deg) rotateY(360deg) translate(-5vw, 20vh); }
+  50% { transform: rotateZ(15deg) rotateY(720deg) translate(5vw, 60vh); }
+  75% { transform: rotateZ(5deg) rotateY(1080deg) translate(-10vw, 80vh); }
+  100% { transform: rotateZ(15deg) rotateY(1440deg) translate(10vw, 110vh); }
+}

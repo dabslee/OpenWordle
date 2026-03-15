@@ -1,28 +1,42 @@
 /* globals.css */
-@import './styling/fonts.css';
-@import './styling/colors.css';
-@import './styling/spacing.css';
+@import "./styling/fonts.css";
+@import "./styling/colors.css";
+@import "./styling/spacing.css";
 
 /* Root variables for global styling */
 :root {
   /* Colors */
-  --color-bg-primary: #EAEAEA;
-  --color-bg-primary-reverse: #1A1A1A;
-  --color-bg-secondary: #B5B5B5;
+  --color-bg-primary: #eaeaea;
+  --color-bg-primary-reverse: #1a1a1a;
+  --color-bg-secondary: #b5b5b5;
 
-  --color-text-primary: #1A1A1A;
-  --color-text-primary-reverse: #EAEAEA;
+  --color-text-primary: #1a1a1a;
+  --color-text-primary-reverse: #eaeaea;
 
-  --color-orange: #FF4F00;
-  --color-black: #1A1A1A;
-  --color-blue: #77C9D8;
-  --color-white: #EAEAEA;
-  --color-grey: #B5B5B5;
-  --color-red: #D50032;
-  --color-green: #4CAF50;
-  --color-yellow: #F1C40F;
-  --color-purple: #8E44AD;
-  --color-peach: #FF6F61;
+  --color-orange: #ff4f00;
+  --color-black: #1a1a1a;
+  --color-blue: #77c9d8;
+  --color-white: #eaeaea;
+  --color-grey: #666666;
+  --color-red: #d50032;
+  --color-green: #4caf50;
+  --color-yellow: #f1c40f;
+  --color-purple: #8e44ad;
+  --color-peach: #ff6f61;
+
+  /* Softer / muted colors */
+  --color-sage: #b6d4a3;
+  --color-dusty-blue: #a9c9d6;
+  --color-muted-purple: #c2a8e0;
+  --color-clay: #e39a7b;
+  --color-sand: #e8d7b8;
+  --color-butter: #f4e08a;
+  --color-terracotta: #e58363;
+  --color-moss: #9fbe8a;
+  --color-steel: #aebbc7;
+  --color-lavender: #d6c6ee;
+  --color-light-orange: #ffc48a;
+  --color-light-red: #f34e4e;
 
   /* Spacing */
   --spacing-xxs: 2px;
@@ -51,8 +65,7 @@
   --font-xxl: 32px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 20px rgba(0,0,0,0.15);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
-

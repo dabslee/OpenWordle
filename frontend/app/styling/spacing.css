@@ -125,6 +125,7 @@
 .br-t-xxl { border-radius: var(--radius-xxl) var(--radius-xxl) 0 0; }
 
 /* gap */
+.gap-xxs { gap: var(--spacing-xxs); }
 .gap-xs { gap: var(--spacing-xs); }
 .gap-sm { gap: var(--spacing-sm); }
 .gap-md { gap: var(--spacing-md); }
